@@ -54,7 +54,7 @@
         
           <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Zoeken"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://freenice12.github.io"></form>
@@ -143,10 +143,10 @@
 <p>제일 먼저 도커의 이미지를 생성하고 생성된 도커 이미지에 별칭(Tag)을 달아주는 일을 하겠습니다.<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">아마도... 위치는 my-project</div><div class="line">my-project$ docker build -t vue-project .</div></pre></td></tr></table></figure></p>
 <p>현재 폴더의 도커 파일을 이미지로 생성해주고 태그(이름)는 vue-project로 지정해줍니다.</p>
 <p>생성된 이미지는 images 명령을 통해 보실 수 있습니다.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ docker images</div></pre></td></tr></table></figure></p>
-<p>그리고 생성된 이미지를 통해 run 명령으로 구동시켜 줍니다.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">docker run -d -rm -p 8080:8080 jongsam-front</div><div class="line">d72b97df8d1d9</div></pre></td></tr></table></figure></p>
+<p>그리고 생성된 이미지를 통해 run 명령으로 구동시켜 줍니다.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">docker run -d --rm -p 8080:8080 jongsam-front</div><div class="line">d72b97df8d1d9</div></pre></td></tr></table></figure></p>
 <ul>
 <li>-d: 백그라운드에서 구동</li>
-<li>-rm: 구동 중지 시 프로세스 목록에서 삭제</li>
+<li>–rm: 구동 중지 시 프로세스 목록에서 삭제</li>
 <li>-p: 호스트 8080포트와 도커 8080포트를 연결</li>
 </ul>
 <p>위 명령을 통해 도커id(d72~)로 실행되고 있고 접속해보니다. <a href="http://localhost:8080" target="_blank" rel="external">http://localhost:8080</a></p>
@@ -158,7 +158,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://freenice12.github.io/2017/10/13/move-to-docker-1/" data-id="cj8s9kvjh0000es4fjd3t6kjf" class="article-share-link">Share</a>
+      <a data-url="http://freenice12.github.io/2017/10/13/move-to-docker-1/" data-id="cj8s9kvjh0000es4fjd3t6kjf" class="article-share-link">Delen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li></ul>
@@ -204,7 +204,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://freenice12.github.io/2017/10/13/what-is-the-wheel-group/" data-id="cj8s9kvjl0001es4f4ral3q1c" class="article-share-link">Share</a>
+      <a data-url="http://freenice12.github.io/2017/10/13/what-is-the-wheel-group/" data-id="cj8s9kvjl0001es4f4ral3q1c" class="article-share-link">Delen</a>
       
       
     </footer>
@@ -242,7 +242,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://freenice12.github.io/2017/10/12/hello-world2/" data-id="cj8s9kvjq0004es4ffhkak9bu" class="article-share-link">Share</a>
+      <a data-url="http://freenice12.github.io/2017/10/12/hello-world2/" data-id="cj8s9kvjq0004es4ffhkak9bu" class="article-share-link">Delen</a>
       
       
     </footer>
@@ -304,7 +304,7 @@ INFO  Deploy done: git
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://freenice12.github.io/2017/10/10/hello-world/" data-id="cj8s9kvjp0003es4fk9wr3gsg" class="article-share-link">Share</a>
+      <a data-url="http://freenice12.github.io/2017/10/10/hello-world/" data-id="cj8s9kvjp0003es4fk9wr3gsg" class="article-share-link">Delen</a>
       
       
     </footer>
@@ -324,7 +324,7 @@ INFO  Deploy done: git
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
+    <h3 class="widget-title">Labels</h3>
     <div class="widget">
       <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li></ul>
     </div>
@@ -343,7 +343,7 @@ INFO  Deploy done: git
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
+    <h3 class="widget-title">Archieven</h3>
     <div class="widget">
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li></ul>
     </div>
@@ -353,7 +353,7 @@ INFO  Deploy done: git
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
+    <h3 class="widget-title">Recente berichten</h3>
     <div class="widget">
       <ul>
         
