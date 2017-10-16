@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>도커로-이사가기-2 | Jeyeon&#39;s blog with Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="이번 글에서는 docker-compose를 사용해 사용자에게 보여줄 문구를 서버에서 받아와 표시하도록 하는 작업을 목표로 하겠습니다. 어디까지나 테스트 용도이고 실제 배포에서 사용하려면 더 세부적인 설정이 필요하겠죠?! 현재 목표는 로컬에서 구동이 가능한 앱을 만드는 것입니다.  물론 악마는 언제나 세부사항에 있습니다…ㅠㅠ 일단 작업을 위해 정리를 하면">
+<meta property="og:type" content="article">
+<meta property="og:title" content="도커로-이사가기-2">
+<meta property="og:url" content="http://freenice12.github.io/2017/10/15/move-to-docker-2/index.html">
+<meta property="og:site_name" content="Jeyeon&#39;s blog with Hexo">
+<meta property="og:description" content="이번 글에서는 docker-compose를 사용해 사용자에게 보여줄 문구를 서버에서 받아와 표시하도록 하는 작업을 목표로 하겠습니다. 어디까지나 테스트 용도이고 실제 배포에서 사용하려면 더 세부적인 설정이 필요하겠죠?! 현재 목표는 로컬에서 구동이 가능한 앱을 만드는 것입니다.  물론 악마는 언제나 세부사항에 있습니다…ㅠㅠ 일단 작업을 위해 정리를 하면">
+<meta property="og:updated_time" content="2017-10-16T11:48:02.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="도커로-이사가기-2">
+<meta name="twitter:description" content="이번 글에서는 docker-compose를 사용해 사용자에게 보여줄 문구를 서버에서 받아와 표시하도록 하는 작업을 목표로 하겠습니다. 어디까지나 테스트 용도이고 실제 배포에서 사용하려면 더 세부적인 설정이 필요하겠죠?! 현재 목표는 로컬에서 구동이 가능한 앱을 만드는 것입니다.  물론 악마는 언제나 세부사항에 있습니다…ㅠㅠ 일단 작업을 위해 정리를 하면">
+  
+    <link rel="alternate" href="/atom.xml" title="Jeyeon&#39;s blog with Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Jeyeon&#39;s blog with Hexo</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Let&#39;s posting!</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://freenice12.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-move-to-docker-2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/10/15/move-to-docker-2/" class="article-date">
+  <time datetime="2017-10-15T13:51:04.000Z" itemprop="datePublished">2017-10-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      도커로-이사가기-2
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>이번 글에서는 <code>docker-compose</code>를 사용해 사용자에게 보여줄 문구를 서버에서 받아와 표시하도록 하는 작업을 목표로 하겠습니다. 어디까지나 테스트 용도이고 실제 배포에서 사용하려면 더 세부적인 설정이 필요하겠죠?! 현재 목표는 로컬에서 구동이 가능한 앱을 만드는 것입니다.  <del>물론 악마는 언제나 세부사항에 있습니다…ㅠㅠ</del></p>
+<p>일단 작업을 위해 정리를 하면</p>
+<ul>
+<li>화면은 Vue.js(Vue cli)를 이용</li>
+<li>서버는 Spring-boot</li>
+<li>데이터베이스는 MySQL</li>
+<li>화면 &lt;-&gt; 서버를 호출 - CORS 해제(<del>세부 사항은 각자ㅠㅠ</del>)</li>
+<li>도커 프로세스간 호출 설정</li>
+</ul>
+<p>정도면 한 회전 정도는 개발이 가능할 것 같습니다.</p>
+<p>추후에 하고싶은 것:</p>
+<ul>
+<li>CI/CD 도입</li>
+<li>무중단 배포 적용</li>
+</ul>
+<h2 id="Docker-Compose가-뭔데"><a href="#Docker-Compose가-뭔데" class="headerlink" title="Docker-Compose가 뭔데?"></a>Docker-Compose가 뭔데?</h2><p>간단하게 docker-compose는 여러 도커 앱의 정의 및 실행을 도와주는 도구입니다. 도커 앱간의 상관 관계(<del>어떤 의미로는 도커 프로세스의 구동 순서 쯤?</del>)라던가 서로 참조하는 등의 작업을 쉽게 해주는 역할도 포함해서요.</p>
+<h2 id="Front-Server-Db-Docker-compose-설정"><a href="#Front-Server-Db-Docker-compose-설정" class="headerlink" title="Front, Server, Db: Docker-compose 설정"></a>Front, Server, Db: Docker-compose 설정</h2><p>그럼 먼저 docker-compose.yml 파일 내용을 보겠습니다.<br><a href="https://docs.docker.com/compose/compose-file/" target="_blank" rel="external">docker-compose 파일 버전 확인</a></p>
+<h3 id="docker-compose-yml"><a href="#docker-compose-yml" class="headerlink" title="docker-compose.yml"></a>docker-compose.yml</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line">version: <span class="string">'3.3'</span> <span class="comment"># 2017.10.15 현재 최신</span></div><div class="line"></div><div class="line">services:</div><div class="line">  db:</div><div class="line">    image: mysql:<span class="number">5.7</span></div><div class="line">    volumes:</div><div class="line">      - ~/docker/mysql:/var/lib/mysql <span class="comment"># Db내용을 ~/docker/mysql 위치에 유지합니다.</span></div><div class="line">    restart: always</div><div class="line">    environment:</div><div class="line">      MYSQL_ROOT_PASSWORD: rootpassword</div><div class="line">      MYSQL_DATABASE: testdb</div><div class="line">      MYSQL_USER: tester</div><div class="line">      MYSQL_PASSWORD: testerpassword</div><div class="line">    ports:</div><div class="line">      - <span class="number">3306</span>:<span class="number">3306</span></div><div class="line"></div><div class="line">  server:</div><div class="line">    build:</div><div class="line">      context: .</div><div class="line">      dockerfile: ./Dockerfile</div><div class="line">    ports:</div><div class="line">      - <span class="number">8080</span>:<span class="number">8080</span></div><div class="line">    volumes:</div><div class="line">      - ./build/libs/app.jar:/app.jar</div><div class="line">    environment:</div><div class="line">      - DB_HOST=db <span class="comment"># database에 연동될 이름을 설정합니다. localhost등으로 연동이 안될 수 있습니다. 설명 참조</span></div><div class="line">      - DB_NAME=testdb</div><div class="line">      - DB_USERNAME=tester</div><div class="line">      - DB_PASSWORD=testerpassword</div><div class="line">      - DB_PORT=<span class="number">3306</span></div><div class="line">    depends_on:</div><div class="line">      - db</div><div class="line"></div><div class="line">  client:</div><div class="line">    build:</div><div class="line">      context: ../my-project</div><div class="line">      dockerfile: ./Dockerfile-dev</div><div class="line">    volumes:</div><div class="line">          - ~/my-project:/usr/src/app</div><div class="line">    ports:</div><div class="line">      - <span class="number">8081</span>:<span class="number">8081</span></div><div class="line">    environment:</div><div class="line">      - PORT=<span class="number">8081</span></div></pre></td></tr></table></figure>
+<p>먼저 폴더 구조는</p>
+<ul>
+<li>/ (#project root)</li>
+<li>L–server</li>
+<li>L–my-project(client)<br>와 같고 server에 docker-compose.yml을 위치시켰습니다(각자 환경에 맞게 옮기셔도 무방).</li>
+</ul>
+<hr>
+<ol>
+<li>versions: docker-compose 파일 버전을 명시합니다(보통 2 또는 3을 사용하는데 3에서는 2에서 많이 쓰던 links 등의 옵션이 deprecated 됨).</li>
+<li>도커가 구동할 서비스(앱)은 총 3가지로 DB, SERVER, CLIENT로 구성됨</li>
+<li>db - 이미지는 mysql:5.7버전을 사용, 그외 환경변수 설정</li>
+<li>server - context는 작업 폴더로 생각하면 쉬움<br>: spring-boot를 이용한 도커 앱으로 docker-compose.yml 파일과 함께있는 Dockerfile을 이용해 이미지를 생성해 사용함<br>: 포트 - 호스트의 8080과 도커 앱의 8080을 연결<br>: 그외 환경변수 설정 - DB_HOST의 경우 도커내에서 도커 service 이름으로 참조가 가능하므로 도커 service 이름을 전달해줘 spring-boot가 인식할 수 있도록 함<br>: depends_on - 도커 서비스인 db 가 구동이 된 후에 service를 구동하도록 의존을 설정</li>
+<li>client - context를 변경해주고 Dockerfile-dev 파일을 이용해 이미지 생성</li>
+</ol>
+<p>이렇게 docker-compose 파일을 생성하고, server용 Dockerfile을 생성합니다(db의 경우 compose에서 하는일이 전부이고 client는 이전 글에서 생성함).</p>
+<h3 id="Dockerfile-server"><a href="#Dockerfile-server" class="headerlink" title="Dockerfile - server"></a>Dockerfile - server</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">FROM</span> openjdk:<span class="number">8</span>-jdk-alpine</div><div class="line"><span class="keyword">VOLUME</span><span class="bash"> /tmp</span></div><div class="line"><span class="bash">ADD build/libs/app.jar app.jar</span></div><div class="line"><span class="bash">ENV JAVA_OPTS=<span class="string">""</span></span></div><div class="line"><span class="bash">ENTRYPOINT <span class="built_in">exec</span> java <span class="variable">$JAVA_OPTS</span> -Djava.security.egd=file:/dev/./urandom -jar /app.jar</span></div></pre></td></tr></table></figure>
+<p>간단합니다.</p>
+<ul>
+<li>openjdk(권장) 이미지로부터</li>
+<li>볼륨 생성</li>
+<li>빌드된 app.jar파일을</li>
+<li>실행</li>
+</ul>
+<p>정말 간단합니다.</p>
+<h2 id="docker-compose-up"><a href="#docker-compose-up" class="headerlink" title="docker-compose up!"></a>docker-compose up!</h2><p>docker compose 명령을 정리하겠습니다.<br>먼저 compose 파일이 있는 폴더로 이동해서.<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ docker-compose up</div></pre></td></tr></table></figure></p>
+<p>끝입니다. 참쉽죠?!<br>위 명령을 실행하면 각 도커 프로세스 별로 머릿말을 달고 로그를 보여줍니다.<br>아주 기본적인 명령이기 때문에 몇 가지 옵션을 소개하면서 글을 마치도록 하겠습니다.</p>
+<p><a href="https://docs.docker.com/compose/reference/up/" target="_blank" rel="external">docker compose up 공식 문서</a><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ docker-compose up -d <span class="comment"># 백그라운드 프로세스에서 실행</span></div><div class="line">$ docker-compose up -d --build <span class="comment"># 도커 이미지를 빌드한 후 실행</span></div><div class="line">$ docker-compose down <span class="comment"># 프로세스를 종료시키고 모두 삭제</span></div><div class="line">$ docker-compose ps <span class="comment"># docker-compose 프로세스 확인</span></div></pre></td></tr></table></figure></p>
+<p>Docker-compose를 아주 기초적으로 다뤄봤습니다. 물론 글쓰는데 얼마 안걸렸지만 삽질한 시간은 정말 어마어마 합니다. 영어에다가 이해력도 응용력도 좋지 않아서입니다…<del>T.T</del></p>
+<p>더 고오오오급 주제를 다룰 수 있게 된다면 후속작을 바로 업데이트 하겠습니다.</p>
+<h2 id="끝"><a href="#끝" class="headerlink" title="끝!"></a>끝!</h2>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://freenice12.github.io/2017/10/15/move-to-docker-2/" data-id="cj8u4a09s0001xu4fv10sk85t" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/10/13/move-to-docker-1/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">도커로-이사가기-1</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/docker/" style="font-size: 10px;">docker</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/10/15/move-to-docker-2/">도커로-이사가기-2</a>
+          </li>
+        
+          <li>
+            <a href="/2017/10/13/move-to-docker-1/">도커로-이사가기-1</a>
+          </li>
+        
+          <li>
+            <a href="/2017/10/13/what-is-the-wheel-group/">what-is-the-wheel-group</a>
+          </li>
+        
+          <li>
+            <a href="/2017/10/12/hello-world2/">안녕 깃헙 페이지 2</a>
+          </li>
+        
+          <li>
+            <a href="/2017/10/10/hello-world/">안녕 깃헙 페이지?!</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 freenice12<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
