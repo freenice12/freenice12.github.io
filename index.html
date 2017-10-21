@@ -65,6 +65,95 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-리팩토링-교보재-1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/10/21/리팩토링-교보재-1/" class="article-date">
+  <time datetime="2017-10-21T11:16:09.000Z" itemprop="datePublished">2017-10-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/21/리팩토링-교보재-1/">리팩토링-교보재-1</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>오늘은 불필요한 지역변수를 사용한 메소드를 다이어트 시키는걸 목표로 하겠습니다(<del>이 코드가 실화냐고 물어보지 말아주세요. 저도 슬픕니다.</del>).<br>각설하겠습니다.</p>
+<h2 id="Given"><a href="#Given" class="headerlink" title="Given"></a>Given</h2><p>먼저 타겟 코드입니다(<del>쓸데없는 주석은 모두 제거…T.T</del>). 함수 바디만 기술했습니다.<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> param = [];</div><div class="line"><span class="keyword">var</span> params = url.substring(url.indexOf(<span class="string">'?'</span>) + <span class="number">1</span>, url.length);</div><div class="line">params = params.split(<span class="string">"&amp;"</span>);</div><div class="line"><span class="keyword">var</span> size = params.length;</div><div class="line"><span class="keyword">var</span> key,</div><div class="line">value;</div><div class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; size; i++) &#123;</div><div class="line">  <span class="keyword">if</span> (params[i].indexOf(<span class="string">"="</span>) != <span class="number">-1</span>) &#123;</div><div class="line">    key = params[i].split(<span class="string">"="</span>)[<span class="number">0</span>];</div><div class="line">    value = params[i].split(<span class="string">"="</span>)[<span class="number">1</span>];</div><div class="line">    param.push(&#123;<span class="string">"key"</span>: key, <span class="string">"value"</span>: value&#125;)</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">return</span> param;</div></pre></td></tr></table></figure></p>
+<p>잘 돌아가는 코드지만,(<strong>중요!</strong>)</p>
+<h2 id="When"><a href="#When" class="headerlink" title="When"></a>When</h2><p>일단 코드를 풀어보면.</p>
+<ul>
+<li>return 할 배열을 param으로 선언.<ul>
+<li>네이밍 센스</li>
+<li>꼭 필요한 변수인가?</li>
+</ul>
+</li>
+<li>params 변수에 다시 split값을 할당<ul>
+<li>아마도 함수는 재사용 불가할 듯(side effect)</li>
+</ul>
+</li>
+<li>for문을 사용해야 하기 때문에 size를 선언<ul>
+<li>가독성(타인을 위한 배려)을… 위해 선언했다면 인정…</li>
+<li>for문 안에 변수없이 사용할 수 없는가? 이 경우 가독성을 해치는지?(아마도 가독성이 향상될 듯)</li>
+</ul>
+</li>
+<li>for 안에서 사용할 변수 선언<ul>
+<li>size 변수와 마찬가지</li>
+</ul>
+</li>
+<li>if 문에서 indexOf를 사용<ul>
+<li>위 문제들과 마찬가지로 가독성문제</li>
+<li>물론 해당 코드를 읽는 사람들이 익숙했다면 인정…</li>
+</ul>
+</li>
+<li>if 문 안에서 결과를 위한 작업 진행(핵심 코드)<ul>
+<li>같은 코드가 중복되어 있음 -&gt; 같은 일을 두 번 해야함</li>
+</ul>
+</li>
+</ul>
+<h2 id="Then"><a href="#Then" class="headerlink" title="Then"></a>Then</h2><p>근데 사실 코드를 잘 읽어보면 무슨일을 하는지도 알것같고, 의미도 유추 가능할 것 같습니다.<br>그래서 실무에선 그냥 넘어간 코드입니다. 그럼 어떻게 하면 조금은 더 깔끔한 코드로 만들 수 있을까요? 조금 고민한 끝에 아래 두 코드를 작성했습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">#1</div><div class="line"><span class="keyword">var</span> result = [];</div><div class="line"><span class="keyword">var</span> params = url.substring(url.indexOf(<span class="string">'?'</span>) + <span class="number">1</span>, url.length);</div><div class="line">params.split(<span class="string">'&amp;'</span>)</div><div class="line">  .filter(<span class="function">(<span class="params">raw</span>) =&gt;</span> raw.includes(<span class="string">'='</span>))</div><div class="line">  .map(<span class="function">(<span class="params">raw</span>)=&gt;</span>&#123;</div><div class="line">    keyValueArray = raw.split(<span class="string">'='</span>);</div><div class="line">    result.push(&#123;<span class="string">"key"</span>: keyValueArray[<span class="number">0</span>], <span class="string">"value"</span>: keyValueArray[<span class="number">1</span>]&#125;);</div><div class="line">  &#125;);</div><div class="line"><span class="keyword">return</span> result;</div><div class="line"></div><div class="line">#2</div><div class="line"><span class="keyword">var</span> params = url.substring(url.indexOf(<span class="string">'?'</span>) + <span class="number">1</span>);</div><div class="line"><span class="keyword">return</span> params.split(<span class="string">'&amp;'</span>)</div><div class="line">  .filter(<span class="function">(<span class="params">raw</span>) =&gt;</span> raw.includes(<span class="string">'='</span>))</div><div class="line">  .reduce(<span class="function">(<span class="params">acc, raw</span>) =&gt;</span> &#123;</div><div class="line">    <span class="keyword">var</span> keyValue = raw.split(<span class="string">'='</span>);</div><div class="line">    acc.push(&#123;<span class="string">"key"</span>: keyValue[<span class="number">0</span>], <span class="string">"value"</span>: keyValue[<span class="number">1</span>]&#125;);</div><div class="line">    <span class="keyword">return</span> acc;</div><div class="line">  &#125;, []);</div></pre></td></tr></table></figure>
+<p>만족스러운(<em>지극히 개인적</em>) 결과라고 생각합니다. 1번의 경우 몇몇 문제가 해결 되었지만 여전히 뭔가 냄새가 납니다(물론 #1이든 #2든). 2번에서는 냄새를 조금 더 지우기 위해서 노력했습니다.</p>
+<ul>
+<li>#1<ul>
+<li>기존 코드(params) 사용</li>
+<li>여전히 리턴할 값을 담을 무언가가 필요함 -&gt; result</li>
+<li>지나치게 장황한 변수명은 아닌가 생각함 -&gt; keyValueArray</li>
+</ul>
+</li>
+<li>#2<ul>
+<li>여전히 기존 코드(params) 사용 -&gt; params 변수로 받을것인가?</li>
+</ul>
+</li>
+</ul>
+<p>params에 대해서 논할 필요가 있겠지만 무작정 한 라인에 이어 붙이기 보다는 한번 끊고 명확한 설명을 해준다는 의미로 생각하고 있습니다.<br>사실 제가 코드가 몇 줄인지(함수의 물리적 <del>(혹은 논리적)</del> 크기)를 다룰 레벨은 아니고 그래도 최대한 여러 원칙들(최대한 변수는 불변으로, 불필요한 변수나 중복을 피하자 등)을 지키고자 노력할려고 노력하는 스타일입니다. 아는만큼 보인다고 제가 아는정도에 한해서 작성된 코드들이고 앞으로도 더 많이 공부하고 더 많이 알게되어 쬐끔은 멋진 그리고 간결하면서 할일 다 하는 코드를 작성하고 싶습니다.</p>
+<p>다음에는 Spring Framework - 필드 뭣이 중헌디?! 로 리팩토링에 관해 떠들어 보겠습니다.</p>
+<p><strong>감사합니다!</strong></p>
+<h2 id="끗"><a href="#끗" class="headerlink" title="끗!"></a>끗!</h2>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://freenice12.github.io/2017/10/21/리팩토링-교보재-1/" data-id="cj91a3ghy0002ab4fvzmiccxi" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/refactoring/">refactoring</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-move-to-docker-2" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/10/15/move-to-docker-2/" class="article-date">
@@ -138,7 +227,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://freenice12.github.io/2017/10/15/move-to-docker-2/" data-id="cj8u4a09s0001xu4fv10sk85t" class="article-share-link">Share</a>
+      <a data-url="http://freenice12.github.io/2017/10/15/move-to-docker-2/" data-id="cj91a3gi00003ab4fgy52m5zk" class="article-share-link">Share</a>
       
       
     </footer>
@@ -241,7 +330,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://freenice12.github.io/2017/10/13/move-to-docker-1/" data-id="cj8u4a09v0003xu4fj5apmv6e" class="article-share-link">Share</a>
+      <a data-url="http://freenice12.github.io/2017/10/13/move-to-docker-1/" data-id="cj91a3gi30006ab4fk0i2sc6n" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li></ul>
@@ -287,7 +376,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://freenice12.github.io/2017/10/13/what-is-the-wheel-group/" data-id="cj8u4a09w0004xu4f0jw2kpgq" class="article-share-link">Share</a>
+      <a data-url="http://freenice12.github.io/2017/10/13/what-is-the-wheel-group/" data-id="cj91a3gi20005ab4fqw2isdog" class="article-share-link">Share</a>
       
       
     </footer>
@@ -325,7 +414,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://freenice12.github.io/2017/10/12/hello-world2/" data-id="cj8u4a09u0002xu4ffa932h8g" class="article-share-link">Share</a>
+      <a data-url="http://freenice12.github.io/2017/10/12/hello-world2/" data-id="cj91a3ghw0001ab4fzyk0k493" class="article-share-link">Share</a>
       
       
     </footer>
@@ -387,7 +476,7 @@ INFO  Deploy done: git
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://freenice12.github.io/2017/10/10/hello-world/" data-id="cj8u4a09o0000xu4f2rtsyyq7" class="article-share-link">Share</a>
+      <a data-url="http://freenice12.github.io/2017/10/10/hello-world/" data-id="cj91a3ghs0000ab4fnvbf0ckr" class="article-share-link">Share</a>
       
       
     </footer>
@@ -409,7 +498,7 @@ INFO  Deploy done: git
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/refactoring/">refactoring</a></li></ul>
     </div>
   </div>
 
@@ -419,7 +508,7 @@ INFO  Deploy done: git
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/docker/" style="font-size: 10px;">docker</a>
+      <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/refactoring/" style="font-size: 10px;">refactoring</a>
     </div>
   </div>
 
@@ -441,6 +530,10 @@ INFO  Deploy done: git
       <ul>
         
           <li>
+            <a href="/2017/10/21/리팩토링-교보재-1/">리팩토링-교보재-1</a>
+          </li>
+        
+          <li>
             <a href="/2017/10/15/move-to-docker-2/">도커로-이사가기-2</a>
           </li>
         
@@ -454,10 +547,6 @@ INFO  Deploy done: git
         
           <li>
             <a href="/2017/10/12/hello-world2/">안녕 깃헙 페이지 2</a>
-          </li>
-        
-          <li>
-            <a href="/2017/10/10/hello-world/">안녕 깃헙 페이지?!</a>
           </li>
         
       </ul>
