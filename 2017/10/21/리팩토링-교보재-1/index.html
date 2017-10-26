@@ -12,7 +12,7 @@
 <meta property="og:url" content="http://freenice12.github.io/2017/10/21/리팩토링-교보재-1/index.html">
 <meta property="og:site_name" content="Jeyeon&#39;s blog with Hexo">
 <meta property="og:description" content="오늘은 불필요한 지역변수를 사용한 메소드를 다이어트 시키는걸 목표로 하겠습니다(이 코드가 실화냐고 물어보지 말아주세요. 저도 슬픕니다.).각설하겠습니다. Given먼저 타겟 코드입니다(쓸데없는 주석은 모두 제거…T.T). 함수 바디만 기술했습니다.1234567891011121314var param = [];var params = url.substring(u">
-<meta property="og:updated_time" content="2017-10-21T12:12:36.000Z">
+<meta property="og:updated_time" content="2017-10-26T12:13:41.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="리팩토링-교보재-1">
 <meta name="twitter:description" content="오늘은 불필요한 지역변수를 사용한 메소드를 다이어트 시키는걸 목표로 하겠습니다(이 코드가 실화냐고 물어보지 말아주세요. 저도 슬픕니다.).각설하겠습니다. Given먼저 타겟 코드입니다(쓸데없는 주석은 모두 제거…T.T). 함수 바디만 기술했습니다.1234567891011121314var param = [];var params = url.substring(u">
@@ -114,6 +114,7 @@
 </ul>
 </li>
 <li>if 문에서 indexOf를 사용<ul>
+<li>자바스크립트가 권장하는 방법이 아님(<strong>안티패턴!</strong>)</li>
 <li>위 문제들과 마찬가지로 가독성문제</li>
 <li>물론 해당 코드를 읽는 사람들이 익숙했다면 인정…</li>
 </ul>
