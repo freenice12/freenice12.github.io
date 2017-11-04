@@ -13,11 +13,11 @@
 <meta name="keywords" content="hexo,theme">
 <meta property="og:type" content="article">
 <meta property="og:title" content="hExO-테마-변경하기">
-<meta property="og:url" content="http://freenice12.github.io/2017/11/04/change-HEXO-theme-한글문제/index.html">
+<meta property="og:url" content="http://freenice12.github.io/2017/11/04/change-HEXO-theme/index.html">
 <meta property="og:site_name" content="Jeyeon&#39;s blog with Hexo">
 <meta property="og:description" content="오늘은 헥소 테마를 변경하도록 하겠습니다. 사실 기본 테마가 굉장히 이뻐보였는데 다른 테마를 좀 봤더니(그리고 다른 불로구!) 역시 디폴트로는 만족할 수 없었습니다. 0단계: 테마 고르기테마 여행을 좀 해보니 두 개의 후보군이 있었고 최종적으로 좀 더 많이 보였던? heuman을 사용하기로 마음 먹었습니다. 1단계: 테마 적용하기테마 설치 &amp;amp; 설정테">
 <meta property="og:locale" content="ko">
-<meta property="og:updated_time" content="2017-11-04T12:46:47.000Z">
+<meta property="og:updated_time" content="2017-11-04T13:01:39.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="hExO-테마-변경하기">
 <meta name="twitter:description" content="오늘은 헥소 테마를 변경하도록 하겠습니다. 사실 기본 테마가 굉장히 이뻐보였는데 다른 테마를 좀 봤더니(그리고 다른 불로구!) 역시 디폴트로는 만족할 수 없었습니다. 0단계: 테마 고르기테마 여행을 좀 해보니 두 개의 후보군이 있었고 최종적으로 좀 더 많이 보였던? heuman을 사용하기로 마음 먹었습니다. 1단계: 테마 적용하기테마 설치 &amp;amp; 설정테">
@@ -133,7 +133,7 @@
     </h1>
 </div>
                         <div class="main-body-content">
-                            <article id="post-change-HEXO-theme-한글문제" class="article article-single article-type-post" itemscope itemprop="blogPost">
+                            <article id="post-change-HEXO-theme" class="article article-single article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
             <header class="article-header">
@@ -150,7 +150,7 @@
             <div class="article-meta">
                 
     <div class="article-date">
-        <a href="/2017/11/04/change-HEXO-theme-한글문제/" class="article-date">
+        <a href="/2017/11/04/change-HEXO-theme/" class="article-date">
             <time datetime="2017-11-04T12:12:31.000Z" itemprop="datePublished">2017-11-04</time>
         </a>
     </div>
@@ -177,6 +177,10 @@
 <h2 id="마무으리"><a href="#마무으리" class="headerlink" title="마무으리"></a>마무으리</h2><p>후로그래머가 아니라도 오타를 찾아내고 정정하는 일은 매우 중요합니다. 남탓하지 않는 내가 되기위해서 오늘도 노력합니다!</p>
 <p>당장은 <code>heuman</code>이 제공하는 기본이긴 하지만 이것도 슬슬 바꿔나가려 합니다. 중요한건 글들이니까요…(개인적으로 ㅎㅎ)<br>그리고 기본 설정중에 <code>thumbnail</code>이 있는데 기본이 보이는거라 <strong>false</strong>로 변경했습니다.</p>
 <h2 id="문제점-발견-추가"><a href="#문제점-발견-추가" class="headerlink" title="문제점 발견!! - 추가"></a>문제점 발견!! - 추가</h2><p>기본 모드에선 몰랐던 한글 파일의 페이지를 클릭하면 404가 뜨는 문제가 발견되었… 그렇다면 파일을 영어로 바꾸고 제목을 한글로 다는수 밖에… 어떤 존잘님이 해결해주시기 전까진 해결방법을 계속 찾아 봐야겠습니다(<del>쫄병은 괴로워T.T</del>).</p>
+<h3 id="추가-2"><a href="#추가-2" class="headerlink" title="추가 2"></a>추가 2</h3><p>일단 근본적으로 hexo의 문젠 아닌것 같고 git의 문제로 파악.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git config --global core.quotepath false</div></pre></td></tr></table></figure></p>
+<p>위 옵션 실패!</p>
+<h3 id="추가-3"><a href="#추가-3" class="headerlink" title="추가 3"></a>추가 3</h3><p>결과적으로 아래 옵션도 실패했으며, 한글 파일명을 사용하지 않는게 이롭다는 결론을 내려준 블로그를 보고 슬슬 마음을 접었습니다.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git config --global core.precomposeunicode true</div></pre></td></tr></table></figure></p>
+<h3 id="추가-4"><a href="#추가-4" class="headerlink" title="추가 4"></a>추가 4</h3><p>위에서 말하듯 한글 파일명을 사용하지 않는것이 정신 건강에 이로울것 같습니다.<br>일단 <a href="http://www.partialrecall.net/2015/10/11/hexo-blog-deploy/" target="_blank" rel="external">이 블로그</a>에서 어느정도의 해결법을 찾았으나 해보진 않는걸로 마무리 했습니다(이제 진짜 끘!).</p>
 <p><strong>감사합니다!</strong></p>
 <h2 id="끗"><a href="#끗" class="headerlink" title="끗!"></a>끗!</h2>
         </div>
@@ -185,7 +189,7 @@
 
 
 
-    <a data-url="http://freenice12.github.io/2017/11/04/change-HEXO-theme-한글문제/" data-id="cj9lc0jnk0004gd4fzhj8uboj" class="article-share-link"><i class="fa fa-share"></i>공유하기</a>
+    <a data-url="http://freenice12.github.io/2017/11/04/change-HEXO-theme/" data-id="cj9lc8oqd0000lg4fe0hoqs29" class="article-share-link"><i class="fa fa-share"></i>공유하기</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -305,7 +309,7 @@
                         
                         <div class="item-inner">
                             <p class="item-category"></p>
-                            <p class="item-title"><a href="/2017/11/04/change-HEXO-theme-한글문제/" class="title">hExO-테마-변경하기</a></p>
+                            <p class="item-title"><a href="/2017/11/04/change-HEXO-theme/" class="title">hExO-테마-변경하기</a></p>
                             <p class="item-date"><time datetime="2017-11-04T12:12:31.000Z" itemprop="datePublished">2017-11-04</time></p>
                         </div>
                     </li>
@@ -426,7 +430,7 @@
     var disqus_shortname = 'hexo-theme-hueman';
     
     
-    var disqus_url = 'http://freenice12.github.io/2017/11/04/change-HEXO-theme-한글문제/';
+    var disqus_url = 'http://freenice12.github.io/2017/11/04/change-HEXO-theme/';
     
     (function() {
     var dsq = document.createElement('script');
