@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Event-sourcing | Jeyeon&#39;s blog with Hexo</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="coqs,event sourcing" />
+    
+    <meta name="description" content="호주 코알라 하루에어님의 이벤트 소싱이벤트 소싱에 대해 쭈욱 찾아보다가 하루에어님의 이벤트 소싱글을 보고 비슷하게 따라 해봤습니다.원글의 약간의 오류를 수정했고, 원하는 대로 잘 작동하는것 같은 느낌적인 느낌을 받았습니다.이 또한 몰아서 쓰는 글이다 보니…다시 진정한? 글을 게시할 때 까지 하던 구직 준비나 해야겠습니다(어휴… 지겨워 … 오래 정착하고 싶다">
+<meta name="keywords" content="coqs,event sourcing">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Event-sourcing">
+<meta property="og:url" content="http://freenice12.github.io/2017/12/20/Event-sourcing/index.html">
+<meta property="og:site_name" content="Jeyeon&#39;s blog with Hexo">
+<meta property="og:description" content="호주 코알라 하루에어님의 이벤트 소싱이벤트 소싱에 대해 쭈욱 찾아보다가 하루에어님의 이벤트 소싱글을 보고 비슷하게 따라 해봤습니다.원글의 약간의 오류를 수정했고, 원하는 대로 잘 작동하는것 같은 느낌적인 느낌을 받았습니다.이 또한 몰아서 쓰는 글이다 보니…다시 진정한? 글을 게시할 때 까지 하던 구직 준비나 해야겠습니다(어휴… 지겨워 … 오래 정착하고 싶다">
+<meta property="og:locale" content="ko">
+<meta property="og:updated_time" content="2017-12-20T14:38:37.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Event-sourcing">
+<meta name="twitter:description" content="호주 코알라 하루에어님의 이벤트 소싱이벤트 소싱에 대해 쭈욱 찾아보다가 하루에어님의 이벤트 소싱글을 보고 비슷하게 따라 해봤습니다.원글의 약간의 오류를 수정했고, 원하는 대로 잘 작동하는것 같은 느낌적인 느낌을 받았습니다.이 또한 몰아서 쓰는 글이다 보니…다시 진정한? 글을 게시할 때 까지 하던 구직 준비나 해야겠습니다(어휴… 지겨워 … 오래 정착하고 싶다">
+    
+
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+
+
+</head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">Let&#39;s posting!</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">홈</a>
+                                </li>
+                            
+                                        
+                                    
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/about/index.html">About</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="검색" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '포스트',
+            PAGES: 'Pages',
+            CATEGORIES: '카테고리',
+            TAGS: '태그',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    미지정
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-Event-sourcing" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Event-sourcing
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2017/12/20/Event-sourcing/" class="article-date">
+            <time datetime="2017-12-20T14:35:51.000Z" itemprop="datePublished">2017-12-20</time>
+        </a>
+    </div>
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/coqs/">coqs</a>, <a class="tag-link" href="/tags/event-sourcing/">event sourcing</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <h2 id="호주-코알라-하루에어님의-이벤트-소싱"><a href="#호주-코알라-하루에어님의-이벤트-소싱" class="headerlink" title="호주 코알라 하루에어님의 이벤트 소싱"></a>호주 코알라 하루에어님의 이벤트 소싱</h2><p>이벤트 소싱에 대해 쭈욱 찾아보다가 하루에어님의 이벤트 소싱글을 보고 비슷하게 따라 해봤습니다.<br>원글의 약간의 오류를 수정했고, 원하는 대로 잘 작동하는것 같은 느낌적인 느낌을 받았습니다.<br>이 또한 몰아서 쓰는 글이다 보니…<br>다시 진정한? 글을 게시할 때 까지 하던 구직 준비나 해야겠습니다(<del>어휴… 지겨워 … 오래 정착하고 싶다</del>).</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div></pre></td><td class="code"><pre><div class="line">&lt;html lang=&quot;en&quot;&gt;&lt;head&gt;</div><div class="line">  &lt;meta charset=&quot;UTF-8&quot;&gt;</div><div class="line">  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;</div><div class="line">  &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;ie=edge&quot;&gt;</div><div class="line">  &lt;title&gt;이벤트 소싱 예제&lt;/title&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line">  &lt;script&gt;</div><div class="line">    class AggregateRoot &#123;</div><div class="line">      constructor() &#123;</div><div class="line">        this._uncommittedEvents = [];</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      apply(event) &#123;</div><div class="line">        this.handle(event);</div><div class="line">        this._uncommittedEvents.push(event);</div><div class="line">        return this;</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      handle(event) &#123;</div><div class="line">        const eventName = event.constructor.name;</div><div class="line">        const eventMethod = `apply$&#123;eventName&#125;`;</div><div class="line">        if (!this[eventMethod]) throw `$&#123;eventMethod&#125; - cannot handled!`;</div><div class="line"></div><div class="line">        this[eventMethod](event);</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      initializeState(events) &#123;</div><div class="line">        events.forEach(e =&gt; this.handle(e));</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      getuncommittedEvents() &#123;</div><div class="line">        const events = this._uncommittedEvents;</div><div class="line">        this._uncommittedEvents = [];</div><div class="line">        return events;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    class EventStoreData &#123;</div><div class="line">      constructor(rootId, event, createdAt) &#123;</div><div class="line">        this._rootId = rootId;</div><div class="line">        this._event = event;</div><div class="line">        this._createdAt = createdAt;</div><div class="line">      &#125;</div><div class="line">      get rootId() &#123;return this._rootId;&#125;</div><div class="line">      get event() &#123;return this._event;&#125;</div><div class="line">      get createdAt() &#123;return this._createdAt;&#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    class InMemoryforTestingEventStore &#123;</div><div class="line">      constructor(events) &#123;</div><div class="line">        this._data = events ? this.convertEvents(events) : [];</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      load(targetId) &#123;</div><div class="line">        return this._data</div><div class="line">          .filter(d =&gt; d.rootId === targetId)</div><div class="line">          .map(d =&gt; d.event);</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      append(events) &#123;</div><div class="line">        const newData = this.convertEvents(events);</div><div class="line">        this._data = this._data.concat(newData);</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      convertEvents(events) &#123;</div><div class="line">        return events.map(e =&gt; this.convertEventToData(e));</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      convertEventToData(event) &#123;</div><div class="line">        return new EventStoreData(event.id, event, new Date().getUTCDate());</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      get data() &#123;return this._data;&#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    class BankAccount extends AggregateRoot &#123;</div><div class="line">      static open(id, name) &#123;</div><div class="line">        const bankAccount = new BankAccount();</div><div class="line">        bankAccount.apply(new OpenedEvent(id, name));</div><div class="line">        return bankAccount;</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      constructor() &#123;</div><div class="line">        super();</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      applyOpenedEvent(event) &#123;</div><div class="line">        this._id = event.id;</div><div class="line">        this._name = event.name;</div><div class="line">        this._closed = false;</div><div class="line">        this._balance = 0;</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      withdraw(amount) &#123;</div><div class="line">        if (this._closed) throw `$&#123;this._id&#125; account is closed.`;</div><div class="line">        this.apply(new WithdrawnEvent(this._id, amount));</div><div class="line">        return this;</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      applyWithdrawnEvent(event) &#123;</div><div class="line">        this._balance -= event.amount;</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      deposit(amount) &#123;</div><div class="line">        if (this._closed) throw `$&#123;this._id&#125; account is closed.`;</div><div class="line">        this.apply(new DepositedEvent(this._id, amount));</div><div class="line">        return this;</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      applyDepositedEvent(event) &#123;</div><div class="line">        this._balance += event.amount;</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      close() &#123;</div><div class="line">        if (this._closed) throw `$&#123;this._id&#125; is already closed!`;</div><div class="line">        this.apply(new ClosedEvent(this._id));</div><div class="line">        return this;</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      applyClosedEvent(event) &#123;</div><div class="line">        this._closed = true;</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      get id() &#123;return this._id;&#125;</div><div class="line">      get name() &#123;return this._name;&#125;</div><div class="line">      get balance() &#123;return this._balance;&#125;</div><div class="line">      get closed() &#123;return this._closed;&#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    class OpenedEvent &#123;</div><div class="line">      constructor(id, name) &#123;</div><div class="line">        this._id = id;</div><div class="line">        this._name = name;</div><div class="line">      &#125;</div><div class="line">      get id() &#123;return this._id;&#125;</div><div class="line">      get name() &#123;return this._name;&#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    class WithdrawnEvent &#123;</div><div class="line">      constructor(id, amount) &#123;</div><div class="line">        this._id = id;</div><div class="line">        this._amount = amount;</div><div class="line">      &#125;</div><div class="line">      get id() &#123;return this._id;&#125;</div><div class="line">      get amount() &#123;return this._amount;&#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    class DepositedEvent &#123;</div><div class="line">      constructor(id, amount) &#123;</div><div class="line">        this._id = id;</div><div class="line">        this._amount = amount;</div><div class="line">      &#125;</div><div class="line">      get id() &#123;return this._id;&#125;</div><div class="line">      get amount() &#123;return this._amount;&#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    class ClosedEvent &#123;</div><div class="line">      constructor(id) &#123;</div><div class="line">        this._id = id</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    class EventSourcingRepository &#123;</div><div class="line">      constructor(eventStore, aggregateType) &#123;</div><div class="line">        this._eventStore = eventStore;</div><div class="line">        this._aggregateType = aggregateType;</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      load(id) &#123;</div><div class="line">        const events = this._eventStore.load(id);</div><div class="line">        const aggregate = new (Object.create(this._aggregateType.prototype)).constructor;</div><div class="line">        aggregate.initializeState(events);</div><div class="line">        return aggregate;</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      save(aggregate) &#123;</div><div class="line">        const uncommittedEvents = aggregate.getuncommittedEvents();</div><div class="line">        this._eventStore.append(uncommittedEvents);</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    const eventStore = new InMemoryforTestingEventStore();</div><div class="line">    const repository = new EventSourcingRepository(eventStore, BankAccount);</div><div class="line">    const bankAccount = BankAccount.open(1234, &apos;who&apos;);</div><div class="line">    bankAccount</div><div class="line">      .deposit(1500)</div><div class="line">      .withdraw(500);</div><div class="line">    repository.save(bankAccount);</div><div class="line">    console.log(&apos;step 1:&apos;,bankAccount);</div><div class="line">    console.log(&apos;step 1:&apos;,eventStore.data);</div><div class="line"></div><div class="line">    const loaded = repository.load(1234);</div><div class="line">    console.log(&apos;after loaded:&apos;, loaded.name, loaded.balance, loaded.closed ? &apos;closed&apos; : &apos;opened&apos;)</div><div class="line">    loaded</div><div class="line">      .withdraw(1000)</div><div class="line">      .deposit(10000);</div><div class="line">    console.log(&apos;step 2:&apos;,loaded);</div><div class="line">    console.log(&apos;step 2:&apos;,eventStore.data);</div><div class="line"></div><div class="line">    repository.save(loaded);</div><div class="line">    console.log(&apos;step 3:&apos;,loaded);</div><div class="line">    console.log(&apos;step 3:&apos;,eventStore.data);</div><div class="line">  &lt;/script&gt;</div><div class="line"></div><div class="line">&lt;/body&gt;&lt;/html&gt;</div></pre></td></tr></table></figure>
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://freenice12.github.io/2017/12/20/Event-sourcing/" data-id="cjbf5ymm10003ua4f30z5z514" class="article-share-link"><i class="fa fa-share"></i>공유하기</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>팔로우:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/freenice12" target="_blank">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2017/12/19/code-spitz-71-ex/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">오래된</strong>
+        <p class="article-nav-title">code-spitz-71-ex</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">최근 글</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2017/12/20/Event-sourcing/" class="title">Event-sourcing</a></p>
+                            <p class="item-date"><time datetime="2017-12-20T14:35:51.000Z" itemprop="datePublished">2017-12-20</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2017/12/19/code-spitz-71-ex/" class="title">code-spitz-71-ex</a></p>
+                            <p class="item-date"><time datetime="2017-12-18T22:25:34.000Z" itemprop="datePublished">2017-12-19</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2017/11/04/change-HEXO-theme/" class="title">hExO-테마-변경하기</a></p>
+                            <p class="item-date"><time datetime="2017-11-04T12:12:31.000Z" itemprop="datePublished">2017-11-04</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2017/10/31/CORS-with-Spring-boot/" class="title">CORS-with-Spring-boot</a></p>
+                            <p class="item-date"><time datetime="2017-10-30T21:20:24.000Z" itemprop="datePublished">2017-10-31</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2017/10/25/example-for-refactoring-2/" class="title">리팩토링-교보재-2</a></p>
+                            <p class="item-date"><time datetime="2017-10-25T14:29:07.000Z" itemprop="datePublished">2017-10-25</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">아카이브</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">12월 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">11월 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">10월 2017</a><span class="archive-list-count">8</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">태그</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ECMA6/">ECMA6</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/configuration/">configuration</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coqs/">coqs</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cors/">cors</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/event-sourcing/">event sourcing</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/refactoring/">refactoring</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring-boot/">spring-boot</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/theme/">theme</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">태그 클라우드</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/ECMA6/" style="font-size: 10px;">ECMA6</a> <a href="/tags/configuration/" style="font-size: 10px;">configuration</a> <a href="/tags/coqs/" style="font-size: 10px;">coqs</a> <a href="/tags/cors/" style="font-size: 10px;">cors</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/event-sourcing/" style="font-size: 10px;">event sourcing</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/refactoring/" style="font-size: 20px;">refactoring</a> <a href="/tags/spring-boot/" style="font-size: 10px;">spring-boot</a> <a href="/tags/theme/" style="font-size: 10px;">theme</a>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">링크</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2017 freenice12</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_shortname = 'freenice12-github-io';
+    
+    
+    var disqus_url = 'http://freenice12.github.io/2017/12/20/Event-sourcing/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>
