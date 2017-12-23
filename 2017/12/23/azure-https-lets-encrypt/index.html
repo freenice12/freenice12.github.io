@@ -3,23 +3,24 @@
 <head>
     <meta charset="utf-8">
     
-    <title>도커로-이사가기-2 | Jeyeon&#39;s blog with Hexo</title>
+    <title>azure-https-lets-encrypt | Jeyeon&#39;s blog with Hexo</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-        <meta name="keywords" content="" />
+        <meta name="keywords" content="azure,letsencrypt" />
     
-    <meta name="description" content="이번 글에서는 docker-compose를 사용해 사용자에게 보여줄 문구를 서버에서 받아와 표시하도록 하는 작업을 목표로 하겠습니다. 어디까지나 테스트 용도이고 실제 배포에서 사용하려면 더 세부적인 설정이 필요하겠죠?! 현재 목표는 로컬에서 구동이 가능한 앱을 만드는 것입니다.  물론 악마는 언제나 세부사항에 있습니다…ㅠㅠ 일단 작업을 위해 정리를 하면">
+    <meta name="description" content="왜 잘 돌아가던 HTTPS 앱을 삭제하게 되었나.이전에 개인 프로젝트를 하던 사이트는 IasS로(아마도?) 각종 환경을 CLI로 수정할 수 있었기 떄문에 큰 문제없이 시간만 투자(이게 문제지…)하면 그래도 원하는 것들이 적용되는 정도였습니다. 하지만 이번에 개인 프로젝트를 접고 WP 웹앱을 사용하기 위해 과감히 삭제 후 설치하게 되었습니다. Azure -">
+<meta name="keywords" content="azure,letsencrypt">
 <meta property="og:type" content="article">
-<meta property="og:title" content="도커로-이사가기-2">
-<meta property="og:url" content="http://freenice12.github.io/2017/10/15/move-to-docker-2/index.html">
+<meta property="og:title" content="azure-https-lets-encrypt">
+<meta property="og:url" content="http://freenice12.github.io/2017/12/23/azure-https-lets-encrypt/index.html">
 <meta property="og:site_name" content="Jeyeon&#39;s blog with Hexo">
-<meta property="og:description" content="이번 글에서는 docker-compose를 사용해 사용자에게 보여줄 문구를 서버에서 받아와 표시하도록 하는 작업을 목표로 하겠습니다. 어디까지나 테스트 용도이고 실제 배포에서 사용하려면 더 세부적인 설정이 필요하겠죠?! 현재 목표는 로컬에서 구동이 가능한 앱을 만드는 것입니다.  물론 악마는 언제나 세부사항에 있습니다…ㅠㅠ 일단 작업을 위해 정리를 하면">
+<meta property="og:description" content="왜 잘 돌아가던 HTTPS 앱을 삭제하게 되었나.이전에 개인 프로젝트를 하던 사이트는 IasS로(아마도?) 각종 환경을 CLI로 수정할 수 있었기 떄문에 큰 문제없이 시간만 투자(이게 문제지…)하면 그래도 원하는 것들이 적용되는 정도였습니다. 하지만 이번에 개인 프로젝트를 접고 WP 웹앱을 사용하기 위해 과감히 삭제 후 설치하게 되었습니다. Azure -">
 <meta property="og:locale" content="ko">
-<meta property="og:updated_time" content="2017-10-16T12:13:29.000Z">
+<meta property="og:updated_time" content="2017-12-23T03:21:27.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="도커로-이사가기-2">
-<meta name="twitter:description" content="이번 글에서는 docker-compose를 사용해 사용자에게 보여줄 문구를 서버에서 받아와 표시하도록 하는 작업을 목표로 하겠습니다. 어디까지나 테스트 용도이고 실제 배포에서 사용하려면 더 세부적인 설정이 필요하겠죠?! 현재 목표는 로컬에서 구동이 가능한 앱을 만드는 것입니다.  물론 악마는 언제나 세부사항에 있습니다…ㅠㅠ 일단 작업을 위해 정리를 하면">
+<meta name="twitter:title" content="azure-https-lets-encrypt">
+<meta name="twitter:description" content="왜 잘 돌아가던 HTTPS 앱을 삭제하게 되었나.이전에 개인 프로젝트를 하던 사이트는 IasS로(아마도?) 각종 환경을 CLI로 수정할 수 있었기 떄문에 큰 문제없이 시간만 투자(이게 문제지…)하면 그래도 원하는 것들이 적용되는 정도였습니다. 하지만 이번에 개인 프로젝트를 접고 WP 웹앱을 사용하기 위해 과감히 삭제 후 설치하게 되었습니다. Azure -">
     
 
     
@@ -134,14 +135,14 @@
     </h1>
 </div>
                         <div class="main-body-content">
-                            <article id="post-move-to-docker-2" class="article article-single article-type-post" itemscope itemprop="blogPost">
+                            <article id="post-azure-https-lets-encrypt" class="article article-single article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
             <header class="article-header">
                 
     
         <h1 class="article-title" itemprop="name">
-        도커로-이사가기-2
+        azure-https-lets-encrypt
         </h1>
     
 
@@ -151,71 +152,86 @@
             <div class="article-meta">
                 
     <div class="article-date">
-        <a href="/2017/10/15/move-to-docker-2/" class="article-date">
-            <time datetime="2017-10-15T13:51:04.000Z" itemprop="datePublished">2017-10-15</time>
+        <a href="/2017/12/23/azure-https-lets-encrypt/" class="article-date">
+            <time datetime="2017-12-23T02:45:17.000Z" itemprop="datePublished">2017-12-23</time>
         </a>
     </div>
 
                 
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/azure/">azure</a>, <a class="tag-link" href="/tags/letsencrypt/">letsencrypt</a>
+    </div>
+
             </div>
         
         
         <div class="article-entry" itemprop="articleBody">
-            <p>이번 글에서는 <code>docker-compose</code>를 사용해 사용자에게 보여줄 문구를 서버에서 받아와 표시하도록 하는 작업을 목표로 하겠습니다. 어디까지나 테스트 용도이고 실제 배포에서 사용하려면 더 세부적인 설정이 필요하겠죠?! 현재 목표는 로컬에서 구동이 가능한 앱을 만드는 것입니다.  <del>물론 악마는 언제나 세부사항에 있습니다…ㅠㅠ</del></p>
-<p>일단 작업을 위해 정리를 하면</p>
-<ul>
-<li>화면은 Vue.js(Vue cli)를 이용</li>
-<li>서버는 Spring-boot</li>
-<li>데이터베이스는 MySQL</li>
-<li>화면 &lt;-&gt; 서버를 호출 - CORS 해제(<del>세부 사항은 각자ㅠㅠ</del>)</li>
-<li>도커 프로세스간 호출 설정</li>
-</ul>
-<p>정도면 한 회전 정도는 개발이 가능할 것 같습니다.</p>
-<p>추후에 하고싶은 것:</p>
-<ul>
-<li>CI/CD 도입</li>
-<li>무중단 배포 적용</li>
-</ul>
-<h2 id="Docker-Compose가-뭔데"><a href="#Docker-Compose가-뭔데" class="headerlink" title="Docker-Compose가 뭔데?"></a>Docker-Compose가 뭔데?</h2><p>간단하게 docker-compose는 여러 도커 앱의 정의 및 실행을 도와주는 도구입니다. 도커 앱간의 상관 관계(<del>어떤 의미로는 도커 프로세스의 구동 순서 쯤?</del>)라던가 서로 참조하는 등의 작업을 쉽게 해주는 역할도 포함해서요.</p>
-<h2 id="Front-Server-Db-Docker-compose-설정"><a href="#Front-Server-Db-Docker-compose-설정" class="headerlink" title="Front, Server, Db: Docker-compose 설정"></a>Front, Server, Db: Docker-compose 설정</h2><p>그럼 먼저 docker-compose.yml 파일 내용을 보겠습니다.<br><a href="https://docs.docker.com/compose/compose-file/" target="_blank" rel="external">docker-compose 파일 버전 확인</a></p>
-<h3 id="docker-compose-yml"><a href="#docker-compose-yml" class="headerlink" title="docker-compose.yml"></a>docker-compose.yml</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line">version: <span class="string">'3.3'</span> <span class="comment"># 2017.10.15 현재 최신</span></div><div class="line"></div><div class="line">services:</div><div class="line">  db:</div><div class="line">    image: mysql:<span class="number">5.7</span></div><div class="line">    volumes:</div><div class="line">      - ~/docker/mysql:/var/lib/mysql <span class="comment"># Db내용을 ~/docker/mysql 위치에 유지합니다.</span></div><div class="line">    restart: always</div><div class="line">    environment:</div><div class="line">      MYSQL_ROOT_PASSWORD: rootpassword</div><div class="line">      MYSQL_DATABASE: testdb</div><div class="line">      MYSQL_USER: tester</div><div class="line">      MYSQL_PASSWORD: testerpassword</div><div class="line">    ports:</div><div class="line">      - <span class="number">3306</span>:<span class="number">3306</span></div><div class="line"></div><div class="line">  server:</div><div class="line">    build:</div><div class="line">      context: .</div><div class="line">      dockerfile: ./Dockerfile</div><div class="line">    ports:</div><div class="line">      - <span class="number">8080</span>:<span class="number">8080</span></div><div class="line">    volumes:</div><div class="line">      - ./build/libs/app.jar:/app.jar</div><div class="line">    environment:</div><div class="line">      - DB_HOST=db <span class="comment"># database에 연동될 이름을 설정합니다. localhost등으로 연동이 안될 수 있습니다. 설명 참조</span></div><div class="line">      - DB_NAME=testdb</div><div class="line">      - DB_USERNAME=tester</div><div class="line">      - DB_PASSWORD=testerpassword</div><div class="line">      - DB_PORT=<span class="number">3306</span></div><div class="line">    depends_on:</div><div class="line">      - db</div><div class="line"></div><div class="line">  client:</div><div class="line">    build:</div><div class="line">      context: ../my-project</div><div class="line">      dockerfile: ./Dockerfile-dev</div><div class="line">    volumes:</div><div class="line">          - ~/my-project:/usr/src/app</div><div class="line">    ports:</div><div class="line">      - <span class="number">8081</span>:<span class="number">8081</span></div><div class="line">    environment:</div><div class="line">      - PORT=<span class="number">8081</span></div></pre></td></tr></table></figure>
-<p>먼저 폴더 구조는</p>
-<ul>
-<li>/ (#project root)</li>
-<li>L–server</li>
-<li>L–my-project(client)<br>와 같고 server에 docker-compose.yml을 위치시켰습니다(각자 환경에 맞게 옮기셔도 무방).</li>
-</ul>
-<hr>
+            <h2 id="왜-잘-돌아가던-HTTPS-앱을-삭제하게-되었나"><a href="#왜-잘-돌아가던-HTTPS-앱을-삭제하게-되었나" class="headerlink" title="왜 잘 돌아가던 HTTPS 앱을 삭제하게 되었나."></a>왜 잘 돌아가던 HTTPS 앱을 삭제하게 되었나.</h2><p>이전에 개인 프로젝트를 하던 사이트는 IasS로(<del>아마도?</del>) 각종 환경을 CLI로 수정할 수 있었기 떄문에 큰 문제없이 시간만 투자(이게 문제지…)하면 그래도 원하는 것들이 적용되는 정도였습니다.</p>
+<p>하지만 이번에 개인 프로젝트를 접고 WP 웹앱을 사용하기 위해 과감히 삭제 후 설치하게 되었습니다.</p>
+<h2 id="Azure-웹앱"><a href="#Azure-웹앱" class="headerlink" title="Azure - 웹앱"></a>Azure - 웹앱</h2><p>웹앱을 설치한 후 기본적인 설정을 마치고 사용자 도메인을 연결하였습니다.<br>여기까지 잘 작동함을 확인했지만, 기존에 Let`s encrypt를 사용해 항상 HTTPS로 접근했었기 떄문에 사용자 도메인으로 연결하게 되면 크롬 틴구가 불평을 했습니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">연결이 비공개로 설정되어 있지 않습니다. NET::ERR_CERT_AUTHORITY_INVALID</div></pre></td></tr></table></figure>
+<p>위 메시지의 설명에는 해커가 나쁜짓 하는걸수도 있다~ 라는 문구가 있었지만, 그게 난데? 라는 자괴감이…</p>
+<p>그래서 어쨋든 다시 Azure 웹엡에 렛츠인크립트를 설치해보기로 결정합니다.</p>
+<h2 id="삽을-들다"><a href="#삽을-들다" class="headerlink" title="삽을 들다."></a>삽을 들다.</h2><p>구으글 신에게 여쭸습니다. “이거 웹엡에도 렛츠인크립트가 되나요?”<br>답이야 뻔하게 “당연하지 ~ 이런 문서들을 봐~” 하면서 많은 문서들이 나열 되었습니다.<br>대충 뭐가 필요한지는 알게 되었지만… 정작 제가 필요로 하는 순서인</p>
 <ol>
-<li>versions: docker-compose 파일 버전을 명시합니다(보통 2 또는 3을 사용하는데 3에서는 2에서 많이 쓰던 links 등의 옵션이 deprecated 됨).</li>
-<li>도커가 구동할 서비스(앱)은 총 3가지로 DB, SERVER, CLIENT로 구성됨</li>
-<li>db - 이미지는 mysql:5.7버전을 사용, 그외 환경변수 설정</li>
-<li>server - context는 작업 폴더로 생각하면 쉬움<br>: spring-boot를 이용한 도커 앱으로 docker-compose.yml 파일과 함께있는 Dockerfile을 이용해 이미지를 생성해 사용함<br>: 포트 - 호스트의 8080과 도커 앱의 8080을 연결<br>: 그외 환경변수 설정 - DB_HOST의 경우 도커내에서 도커 service 이름으로 참조가 가능하므로 도커 service 이름을 전달해줘 spring-boot가 인식할 수 있도록 함<br>: depends_on - 도커 서비스인 db 가 구동이 된 후에 service를 구동하도록 의존을 설정</li>
-<li>client - context를 변경해주고 Dockerfile-dev 파일을 이용해 이미지 생성</li>
+<li>웹앱 생성</li>
+<li>Azure Active Directory(AAD) 앱 생성</li>
+<li>렛츠인크립트 추가<br>가 아니라<br>AAD 앱 생성 후 웹앱 연결인 반대의 순서로 설명이 되어 있었습니다(<del>영어니까 잘 몰라요…</del>).</li>
 </ol>
-<p>이렇게 docker-compose 파일을 생성하고, server용 Dockerfile을 생성합니다(db의 경우 compose에서 하는일이 전부이고 client는 이전 글에서 생성함).</p>
-<h3 id="Dockerfile-server"><a href="#Dockerfile-server" class="headerlink" title="Dockerfile - server"></a>Dockerfile - server</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">FROM</span> openjdk:<span class="number">8</span>-jdk-alpine</div><div class="line"><span class="keyword">VOLUME</span><span class="bash"> /tmp</span></div><div class="line"><span class="bash">ADD build/libs/app.jar app.jar</span></div><div class="line"><span class="bash">ENV JAVA_OPTS=<span class="string">""</span></span></div><div class="line"><span class="bash">ENTRYPOINT <span class="built_in">exec</span> java <span class="variable">$JAVA_OPTS</span> -Djava.security.egd=file:/dev/./urandom -jar /app.jar</span></div></pre></td></tr></table></figure>
-<p>간단합니다.</p>
+<p>뭐 암튼 필요하다는 목록에는</p>
 <ul>
-<li>openjdk(권장) 이미지로부터</li>
-<li>볼륨 생성</li>
-<li>빌드된 app.jar파일을</li>
-<li>실행</li>
+<li>Tenant</li>
+<li>SubscriptionId</li>
+<li>ClientId</li>
+<li>ClientSecret<br>등이 있었고, Azure도 모르고 용어도 모르는 저는 울 수 밖에 없었습니다.  몇몇 문서에서 설명해 주는대로 최대한 Azure portal에서 해결해보려고 버둥거렸습니다.<br>역시나 실패하고 우리의 Azure 한국 사용자 그룹에 문의를 날렸습니다.<br>이곳에서 엯촋님 <strong>유정협</strong>님이 답변을 달아주셨고, 설명은 매우 간단했습니다.</li>
 </ul>
-<p>정말 간단합니다.</p>
-<h2 id="docker-compose-up"><a href="#docker-compose-up" class="headerlink" title="docker-compose up!"></a>docker-compose up!</h2><p>docker compose 명령을 정리하겠습니다.<br>먼저 compose 파일이 있는 폴더로 이동해서.<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ docker-compose up</div></pre></td></tr></table></figure></p>
-<p>끝입니다. 참쉽죠?!<br>위 명령을 실행하면 각 도커 프로세스 별로 머릿말을 달고 로그를 보여줍니다.<br>아주 기본적인 명령이기 때문에 몇 가지 옵션을 소개하면서 글을 마치도록 하겠습니다.</p>
-<p><a href="https://docs.docker.com/compose/reference/up/" target="_blank" rel="external">docker compose up 공식 문서</a><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">$ docker-compose up -d <span class="comment"># 백그라운드 프로세스에서 실행</span></div><div class="line">$ docker-compose up -d --build <span class="comment"># 도커 이미지를 빌드한 후 실행</span></div><div class="line">$ docker-compose logs &lt;서비스명&gt; <span class="comment"># 서비스 로그 확인</span></div><div class="line">$ docker-compose stop &lt;서비스명&gt; <span class="comment"># 프로세스 정지</span></div><div class="line">$ docker-compose start &lt;서비스명&gt; <span class="comment"># 프로세스 시작</span></div><div class="line">$ docker-compose down <span class="comment"># 프로세스를 종료시키고 모두 삭제</span></div><div class="line">$ docker-compose ps <span class="comment"># docker-compose 프로세스 확인</span></div></pre></td></tr></table></figure></p>
-<p>Docker-compose를 아주 기초적으로 다뤄봤습니다. 물론 글쓰는데 얼마 안걸렸지만 삽질한 시간은 정말 어마어마 합니다. 영어에다가 이해력도 응용력도 좋지 않아서입니다…<del>T.T</del></p>
-<p>더 고오오오급 주제를 다룰 수 있게 된다면 후속작을 바로 업데이트 하겠습니다.</p>
-<h2 id="끝"><a href="#끝" class="headerlink" title="끝!"></a>끝!</h2>
+<p>뭐 어쨋든 일단 필요한 값들을 얻는 방법을 한번 정리를 하자면…</p>
+<ul>
+<li>Tenant: AAD &gt; 속성 &gt; 디렉토리 ID</li>
+<li>SubscriptionId: 생성한 웹앱 &gt; 개요 &gt; 구독 ID</li>
+<li>ClientId: AAD생성앱 &gt;&gt; 응용 프로그램 ID</li>
+<li>ClientSecret: AAD생성앱 &gt; 키 &gt; 암호 생성 (기한 주고) &gt; 등록하면 키 생김</li>
+</ul>
+<p>이렇게 필수요소를 정리하고, 리소스 그룹 이름만 알면 모든 준비는 끝(<del>일꺼라 생각했음…</del>)입니다.</p>
+<h2 id="뭐여…-뭐가-자꼬-틀리데"><a href="#뭐여…-뭐가-자꼬-틀리데" class="headerlink" title="뭐여… 뭐가 자꼬 틀리데!"></a>뭐여… 뭐가 자꼬 틀리데!</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">does not have authorization to perform action &apos;Microsoft.Web/sites/config/list/action&apos; over scope</div></pre></td></tr></table></figure>
+<p><del>뭐 임마. 줘야하는 파라메터는 다 넣어줬잖아! 그만 불평하고 HTTPS연결이 되도록 일하라고!</del></p>
+<p>아… 뭐 권한이 없다고 하는데 도리가 없었습니다. 권한을 줄 수밖에…<br>하지만 저는 무슨 권한이 필요한지 모르니까 무조건 다 줬습니다.<br>몇 일간 삽을들고 씨름하는 바람에 AAD에 만든 앱은 4개가 되었고 권한은 스크롤을 해야할 많큼 쌓여만 갔습니다(<del>여윽시 멍튱이는 손발이…</del>).<br>암튼 이 권한 저 권한 막 다 때려주고는 기도를 하면서<br>Azure Lets encrypt - Authentication Settings의 빈 칸을 마구 채워 넣습니다.<br>그러자 오류 메시지가 바뀌는 기적을 체험하였고, 그 메시지는 <code>너 앱 설정 수정할껴?</code> 라는 뉘앙스로 물어오는듯 하였습니다.<br>그러자 기적처럼 맨 아래에 <code>Update Application Settings</code> 체크박스가 눈에 띄였고, 체크해준 후 NEXT 버튼을 클릭하자… 팬티를 지를 수 밖에 없었습니다(<del>소리 벗고</del>).</p>
+<h2 id="힝-속았지"><a href="#힝-속았지" class="headerlink" title="힝~ 속았지~!?"></a>힝~ 속았지~!?</h2><p>다음 화면을 보고 매우 기뻣지만 긴장으 끈을 놓지 않았습니다.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Custom Domains and SSL 페이지 입성! 두둥!</div></pre></td></tr></table></figure></p>
+<p>이 페이지에는 뭐 글씨밖에 없고 사용자 입력을 받는 부분이 없어서 안심하고 NEXT를 눌렀습니다(오예 꿀~).</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Request and Install Certificate 페이지 입성. 아.. 긴장된다!</div></pre></td></tr></table></figure>
+<p>이 페이지에는 제가 사용자 도메인으로 등록해놓은 주소와 이메일을 입력하는 칸이 있었습니다.<br>(오예 내가 등록해 놓은 도메인이 보인다!!) 기뻐하며 이메일 주소를 입력하고 <code>Request and Install certificate</code> 버튼을 눌렀씁니다!<br>역시나 오류! ㅎㅎ 도메인이 보이는것에 안주하지 말고 살포시 클릭을 한번 해주라는 귀여운 경고를 맞이했습니다.<br>그래 까짓거 클릭해준다. 클릭 후 다시 <code>Request and Install certificate</code> 버튼을 눌렀씁니다!<br>와!! 크롬 탭에 골뱅이가 막 돌기 시작했습니다. 뭔가 될 듯한 이 긴장감!!!</p>
+<p>그런데 갑자기 또 에러 페이지가????<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Response status code does not indicate success: 403 (Forbidden).</div></pre></td></tr></table></figure></p>
+<p>403이면 권한인데… 또 Azure 한국 사용자 그룹에 <strong>유정협</strong>님께 도움!을 요청했습니다.<br>역시나 <code>서비스 프린시팔</code>(<del>이름부터 참…</del>) 권한이 아직 없다는 이야기를 들었습니다.</p>
+<p>어?! 다 줬는데?!!?!?!?!!<br>다시 심기일전 한 후에 필요없는 것들(AAD 앱을 하나만 남김, 권한 줫던거 다 삭제)을 제거한 후에 심기일전 하며 클릭(<del>이라고 쓰고 기도라고 읽는다</del>)질을 해댔습니다.</p>
+<p>그런데 삭제하던 도중 마지막 남은 AAD 앱에 <code>기여자</code> 권한만 빠져있는게 확인되었습니다(제길슨…).  낼름 <code>기여자</code>권한을 떠넘긴 후에 다시 Request and Install Certificate 페이지를 방문했습니다.</p>
+<h2 id="여정의-끝"><a href="#여정의-끝" class="headerlink" title="여정의 끝"></a>여정의 끝</h2><p>이번에도 안되면 저녁에 정협님이 돌아와서 도와주시겟다고 했기때문에 모든걸 내려놓고 최대한 기도(<del>라고 쓰고 클릭이라고..</del> 아니 실제 기도였잖아!?)를 했습니다.</p>
+<p><code>Request and Install certificate</code> 버튼을 눌렀(<del>이라고 쓰고 기도라고 읽는다</del>)씁니다!<br>또 설레이는 골뱅이가 돌아가고, 마침내 <code>Success</code>라는 단어와 마주하게 되었습니다.</p>
+<p>이게 뭐라고 이렇게 절 힘들게 했는지… <code>서비스 프린시팔</code>(<del>이름부터 참…</del>) 권한이 저를 한참 힘들게 했습니다.</p>
+<p>다시 한번 최종적으로 각 키들을 어떻게 가져왔는지 어떤 기도를 했는지 정리한 후 마무리 하겠습니다.</p>
+<h2 id="마무으리"><a href="#마무으리" class="headerlink" title="마무으리"></a>마무으리</h2><ul>
+<li>Tenant: AAD &gt; 속성 &gt; 디렉토리 ID</li>
+<li>SubscriptionId: 생성한 웹앱 &gt; 개요 &gt; 구독 ID</li>
+<li>ClientId: AAD생성앱 &gt;&gt; 응용 프로그램 ID</li>
+<li>ClientSecret: AAD생성앱 &gt; 키 &gt; 암호 생성 (기한 주고) &gt; 등록하면 키 생김</li>
+<li>리소스 어쩌고 하는것들은 리소스그룹 이름을 똑같이 넣어주세요!</li>
+<li>구독 &gt; IAM &gt; 독자 추가 &gt; AAD 생성 앱 이름 검색 후 추가 (기여자로!)<br>마지막 놈이 핵심입니다.</li>
+</ul>
+<ul>
+<li><code>Update Application Settings</code> 체크박스</li>
+<li>커스텀 도메인 클릭하기.</li>
+</ul>
+<p>아래는 정협님이 정리해주신 원문입니다(프린시팔 녀석만 잘 알았어도…욕이 아닙니다.ㅠㅠ).<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">0. 해당 웹 앱에 커스텀 도메인 적용되어 있는지 확인한다. 안되어 있으면 이것 먼저 해야 함.</div><div class="line">1. 애저 액티브 디렉토리에서 서비스 프린시팔 하나 만든다. Application Id (Client Id), Application Key (Client Secret) 겟! 물론 Directory Id (Tenant Id) 도 겟!</div><div class="line">2. 그 서비스 프린시팔에 최소 해당 웹 앱이랑 앱 서비스 플랜이 있는 리소스 그룹 레벨에 콘트리뷰터 권한 준다.</div><div class="line">3. 애저 포탈에서 렛츠인크립트 익스텐션 설치한다.</div><div class="line">4. 설치 화면에서 필요한 정보 다 입력하고 클릭클릭 하면 됩니다.</div><div class="line"></div><div class="line">#참쉽죠?</div></pre></td></tr></table></figure></p>
+<p>이런 밥아자씨 같으신 분 ㅎㅎ</p>
+<p>이상입니다.<br>덧. 화면 캡춰를 해서 넣고싶지만… 게으름!ㅠㅠ<br><strong>끝!</strong></p>
+
         </div>
         <footer class="article-footer">
             
 
 
 
-    <a data-url="http://freenice12.github.io/2017/10/15/move-to-docker-2/" data-id="cjbis378m000ki84f2ds1xnhl" class="article-share-link"><i class="fa fa-share"></i>공유하기</a>
+    <a data-url="http://freenice12.github.io/2017/12/23/azure-https-lets-encrypt/" data-id="cjbis37880001i84fs3qnt697" class="article-share-link"><i class="fa fa-share"></i>공유하기</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -312,20 +328,10 @@
         
 <nav id="article-nav">
     
-        <a href="/2017/10/21/exmaple-for-refactoring-1/" id="article-nav-newer" class="article-nav-link-wrap">
-        <strong class="article-nav-caption">새로운</strong>
-        <p class="article-nav-title">
-        
-            리팩토링-교보재-1
-        
-        </p>
-        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
-    </a>
     
-    
-        <a href="/2017/10/13/move-to-docker-1/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/2017/12/20/Event-sourcing-1/" id="article-nav-older" class="article-nav-link-wrap">
         <strong class="article-nav-caption">오래된</strong>
-        <p class="article-nav-title">도커로-이사가기-1</p>
+        <p class="article-nav-title">Event-sourcing-1</p>
         <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
         </a>
     
@@ -466,7 +472,7 @@
     var disqus_shortname = 'freenice12-github-io';
     
     
-    var disqus_url = 'http://freenice12.github.io/2017/10/15/move-to-docker-2/';
+    var disqus_url = 'http://freenice12.github.io/2017/12/23/azure-https-lets-encrypt/';
     
     (function() {
     var dsq = document.createElement('script');
