@@ -3,17 +3,20 @@
 <head>
     <meta charset="utf-8">
     
-    <title>태그: coqs | Jeyeon&#39;s blog with Hexo</title>
+    <title>es6-shortcut | Jeyeon&#39;s blog with Hexo</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-    <meta property="og:type" content="website">
-<meta property="og:title" content="Jeyeon&#39;s blog with Hexo">
-<meta property="og:url" content="http://freenice12.github.io/tags/coqs/index.html">
+        <meta name="keywords" content="" />
+    
+    <meta property="og:type" content="article">
+<meta property="og:title" content="es6-shortcut">
+<meta property="og:url" content="http://freenice12.github.io/2017/12/29/es6-shortcut-1/index.html">
 <meta property="og:site_name" content="Jeyeon&#39;s blog with Hexo">
 <meta property="og:locale" content="ko">
+<meta property="og:updated_time" content="2017-12-29T14:34:00.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Jeyeon&#39;s blog with Hexo">
+<meta name="twitter:title" content="es6-shortcut">
     
 
     
@@ -122,54 +125,117 @@
                         <div class="main-body-header">
     <h1 class="header">
     
-    <i class="icon fa fa-tag"></i>태그: <em>coqs</em>
+    미지정
     </h1>
 </div>
                         <div class="main-body-content">
-                            
-
-    
-    
+                            <article id="post-es6-shortcut-1" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
         
-        
-        <section class="archives-wrap">
-            <div class="archive-year-wrap">
-                <a href="/archives/2017" class="archive-year"><i class="icon fa fa-calendar-o"></i>2017</a>
-            </div>
-            <div class="archives">
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <div class="article-meta">
-            <div class="category">
-            
-            </div>
-            <div class="date"><time datetime="2017-12-20T14:35:51.000Z" itemprop="datePublished">2017-12-20</time></div>
-        </div>
-        
+            <header class="article-header">
+                
     
         <h1 class="article-title" itemprop="name">
-        <a href="/2017/12/20/Event-sourcing-1/">Event-sourcing-1</a>
+        es6-shortcut
         </h1>
     
 
-        <p class="article-excerpt">
-            호주 코알라 하루에어님의 이벤트 소싱이벤트 소싱에 대해 쭈욱 찾아보다가 하루에어님의 이벤트 소싱글을 보고 비슷하게 따라 해봤습니다.원글의 약간의 오류를 수정했고, 원하는 대로 잘 작동하는것 같은 느낌적인 느낌을 받았습니다.이 또한 몰아서 쓰는 글이다 보니…다시 진정한? 글을 게시할 때 까지 하던 구직 준비나 해야겠습니다(어휴… 지겨워 … 오래 정착하고 싶다
-        </p>
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2017/12/29/es6-shortcut-1/" class="article-date">
+            <time datetime="2017-12-29T14:34:00.000Z" itemprop="datePublished">2017-12-29</time>
+        </a>
+    </div>
+
+                
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://freenice12.github.io/2017/12/29/es6-shortcut-1/" data-id="cjbs0r78e0009ja4fvcbzrkep" class="article-share-link"><i class="fa fa-share"></i>공유하기</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
     </div>
 </article>
+
+    <section id="comments">
     
-        </div>
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
     
-
-
-    </div></section>
-
+    </section>
 
 
                         </div>
@@ -190,6 +256,19 @@
             
         </ul>
     </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2017/12/29/es6-shortcut/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">오래된</strong>
+        <p class="article-nav-title">es6-shortcut</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
     
     <div class="widgets-container">
         
@@ -325,11 +404,13 @@
     var disqus_shortname = 'freenice12-github-io';
     
     
+    var disqus_url = 'http://freenice12.github.io/2017/12/29/es6-shortcut-1/';
+    
     (function() {
     var dsq = document.createElement('script');
     dsq.type = 'text/javascript';
     dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
     </script>
