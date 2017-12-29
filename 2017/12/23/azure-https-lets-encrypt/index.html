@@ -17,7 +17,7 @@
 <meta property="og:site_name" content="Jeyeon&#39;s blog with Hexo">
 <meta property="og:description" content="왜 잘 돌아가던 HTTPS 앱을 삭제하게 되었나.이전에 개인 프로젝트를 하던 사이트는 IasS로(아마도?) 각종 환경을 CLI로 수정할 수 있었기 떄문에 큰 문제없이 시간만 투자(이게 문제지…)하면 그래도 원하는 것들이 적용되는 정도였습니다. 하지만 이번에 개인 프로젝트를 접고 WP 웹앱을 사용하기 위해 과감히 삭제 후 설치하게 되었습니다. Azure -">
 <meta property="og:locale" content="ko">
-<meta property="og:updated_time" content="2017-12-23T03:21:27.000Z">
+<meta property="og:updated_time" content="2017-12-29T13:11:45.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="azure-https-lets-encrypt">
 <meta name="twitter:description" content="왜 잘 돌아가던 HTTPS 앱을 삭제하게 되었나.이전에 개인 프로젝트를 하던 사이트는 IasS로(아마도?) 각종 환경을 CLI로 수정할 수 있었기 떄문에 큰 문제없이 시간만 투자(이게 문제지…)하면 그래도 원하는 것들이 적용되는 정도였습니다. 하지만 이번에 개인 프로젝트를 접고 WP 웹앱을 사용하기 위해 과감히 삭제 후 설치하게 되었습니다. Azure -">
@@ -175,15 +175,17 @@
 <ol>
 <li>웹앱 생성</li>
 <li>Azure Active Directory(AAD) 앱 생성</li>
-<li>렛츠인크립트 추가<br>가 아니라<br>AAD 앱 생성 후 웹앱 연결인 반대의 순서로 설명이 되어 있었습니다(<del>영어니까 잘 몰라요…</del>).</li>
+<li>렛츠인크립트 추가</li>
 </ol>
+<p>가 아니라<br>AAD 앱 생성 후 웹앱 연결인 반대의 순서로 설명이 되어 있었습니다(<del>영어니까 잘 몰라요…</del>).</p>
 <p>뭐 암튼 필요하다는 목록에는</p>
 <ul>
 <li>Tenant</li>
 <li>SubscriptionId</li>
 <li>ClientId</li>
-<li>ClientSecret<br>등이 있었고, Azure도 모르고 용어도 모르는 저는 울 수 밖에 없었습니다.  몇몇 문서에서 설명해 주는대로 최대한 Azure portal에서 해결해보려고 버둥거렸습니다.<br>역시나 실패하고 우리의 Azure 한국 사용자 그룹에 문의를 날렸습니다.<br>이곳에서 엯촋님 <strong>유정협</strong>님이 답변을 달아주셨고, 설명은 매우 간단했습니다.</li>
+<li>ClientSecret</li>
 </ul>
+<p>등이 있었고, Azure도 모르고 용어도 모르는 저는 울 수 밖에 없었습니다.  몇몇 문서에서 설명해 주는대로 최대한 Azure portal에서 해결해보려고 버둥거렸습니다.<br>역시나 실패하고 우리의 Azure 한국 사용자 그룹에 문의를 날렸습니다.<br>이곳에서 엯촋님 <a href="https://twitter.com/justinchronicle" target="_blank" rel="external">유정협</a>님이 답변을 달아주셨고, 설명은 매우 간단했습니다.</p>
 <p>뭐 어쨋든 일단 필요한 값들을 얻는 방법을 한번 정리를 하자면…</p>
 <ul>
 <li>Tenant: AAD &gt; 속성 &gt; 디렉토리 ID</li>
@@ -200,7 +202,8 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Request and Install Certificate 페이지 입성. 아.. 긴장된다!</div></pre></td></tr></table></figure>
 <p>이 페이지에는 제가 사용자 도메인으로 등록해놓은 주소와 이메일을 입력하는 칸이 있었습니다.<br>(오예 내가 등록해 놓은 도메인이 보인다!!) 기뻐하며 이메일 주소를 입력하고 <code>Request and Install certificate</code> 버튼을 눌렀씁니다!<br>역시나 오류! ㅎㅎ 도메인이 보이는것에 안주하지 말고 살포시 클릭을 한번 해주라는 귀여운 경고를 맞이했습니다.<br>그래 까짓거 클릭해준다. 클릭 후 다시 <code>Request and Install certificate</code> 버튼을 눌렀씁니다!<br>와!! 크롬 탭에 골뱅이가 막 돌기 시작했습니다. 뭔가 될 듯한 이 긴장감!!!</p>
 <p>그런데 갑자기 또 에러 페이지가????<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Response status code does not indicate success: 403 (Forbidden).</div></pre></td></tr></table></figure></p>
-<p>403이면 권한인데… 또 Azure 한국 사용자 그룹에 <strong>유정협</strong>님께 도움!을 요청했습니다.<br>역시나 <code>서비스 프린시팔</code>(<del>이름부터 참…</del>) 권한이 아직 없다는 이야기를 들었습니다.</p>
+<p>403이면 권한인데… 또 Azure 한국 사용자 그룹에 <a href="https://twitter.com/justinchronicle" target="_blank" rel="external">유정협</a>님께 도움!을 요청했습니다.<br>역시나 <code>서비스 프린시팔</code>(<del>이름부터 참…</del>) 권한이 아직 없다는 이야기를 들었습니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">서비스 프린시팔(Service principle) 이란</div><div class="line">https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-application-objects</div><div class="line"></div><div class="line">사용될 앱 에는 반드시 각 테넌트별로 Service principle이 있어야 한다고 합니다.</div><div class="line">이 용어들을 나름대로 해석해보자면 사용자는 AAD-앱을 사용하려면 어떠한 권한(아마도 이것)을 가져야 합니다.</div><div class="line">우리가 줘야 할 권한은 &quot;기여자&quot;(Contributor)이고 이 글에서는 &quot;Contributor&quot;를 &quot;기여자&quot;로 게시했습니다.</div><div class="line">맨 아래 한국 Azure 사용자 모임의 글에서는 컨트리뷰터라고 표시되어 있고 이는 Contributor이며 기여자와 같은 용어입니다!</div></pre></td></tr></table></figure>
 <p>어?! 다 줬는데?!!?!?!?!!<br>다시 심기일전 한 후에 필요없는 것들(AAD 앱을 하나만 남김, 권한 줫던거 다 삭제)을 제거한 후에 심기일전 하며 클릭(<del>이라고 쓰고 기도라고 읽는다</del>)질을 해댔습니다.</p>
 <p>그런데 삭제하던 도중 마지막 남은 AAD 앱에 <code>기여자</code> 권한만 빠져있는게 확인되었습니다(제길슨…).  낼름 <code>기여자</code>권한을 떠넘긴 후에 다시 Request and Install Certificate 페이지를 방문했습니다.</p>
 <h2 id="여정의-끝"><a href="#여정의-끝" class="headerlink" title="여정의 끝"></a>여정의 끝</h2><p>이번에도 안되면 저녁에 정협님이 돌아와서 도와주시겟다고 했기때문에 모든걸 내려놓고 최대한 기도(<del>라고 쓰고 클릭이라고..</del> 아니 실제 기도였잖아!?)를 했습니다.</p>
@@ -219,9 +222,11 @@
 <li><code>Update Application Settings</code> 체크박스</li>
 <li>커스텀 도메인 클릭하기.</li>
 </ul>
-<p>아래는 정협님이 정리해주신 원문입니다(프린시팔 녀석만 잘 알았어도…욕이 아닙니다.ㅠㅠ).<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">0. 해당 웹 앱에 커스텀 도메인 적용되어 있는지 확인한다. 안되어 있으면 이것 먼저 해야 함.</div><div class="line">1. 애저 액티브 디렉토리에서 서비스 프린시팔 하나 만든다. Application Id (Client Id), Application Key (Client Secret) 겟! 물론 Directory Id (Tenant Id) 도 겟!</div><div class="line">2. 그 서비스 프린시팔에 최소 해당 웹 앱이랑 앱 서비스 플랜이 있는 리소스 그룹 레벨에 콘트리뷰터 권한 준다.</div><div class="line">3. 애저 포탈에서 렛츠인크립트 익스텐션 설치한다.</div><div class="line">4. 설치 화면에서 필요한 정보 다 입력하고 클릭클릭 하면 됩니다.</div><div class="line"></div><div class="line">#참쉽죠?</div></pre></td></tr></table></figure></p>
+<p>아래는 <a href="https://twitter.com/justinchronicle" target="_blank" rel="external">유정협</a>님이 정리해주신 원문입니다(프린시팔 녀석만 잘 알았어도…욕이 아닙니다.ㅠㅠ).<br><a href="https://www.facebook.com/groups/krazure/permalink/1827304613978366/" target="_blank" rel="external">페이스북 한국 Azure 사용자 그룹</a>의 원문을 보실 수 있습니다.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">0. 해당 웹 앱에 커스텀 도메인 적용되어 있는지 확인한다. 안되어 있으면 이것 먼저 해야 함.</div><div class="line">1. 애저 액티브 디렉토리에서 서비스 프린시팔 하나 만든다. Application Id (Client Id), Application Key (Client Secret) 겟! 물론 Directory Id (Tenant Id) 도 겟!</div><div class="line">2. 그 서비스 프린시팔에 최소 해당 웹 앱이랑 앱 서비스 플랜이 있는 리소스 그룹 레벨에 콘트리뷰터 권한 준다.</div><div class="line">3. 애저 포탈에서 렛츠인크립트 익스텐션 설치한다.</div><div class="line">4. 설치 화면에서 필요한 정보 다 입력하고 클릭클릭 하면 됩니다.</div><div class="line"></div><div class="line">#참쉽죠?</div></pre></td></tr></table></figure></p>
 <p>이런 밥아자씨 같으신 분 ㅎㅎ</p>
-<p>이상입니다.<br>덧. 화면 캡춰를 해서 넣고싶지만… 게으름!ㅠㅠ<br><strong>끝!</strong></p>
+<p>이상입니다.<br>덧. 화면 캡춰를 해서 넣고싶지만… 게으름!ㅠㅠ</p>
+<p>덧2. 리뷰를 해주신 <a href="https://twitter.com/justinchronicle" target="_blank" rel="external">유정협</a>님께 이 글을 빌어 다시한번 감사의 말씀을 전합니다. 감사합니다!</p>
+<p><strong>끝!</strong></p>
 
         </div>
         <footer class="article-footer">
