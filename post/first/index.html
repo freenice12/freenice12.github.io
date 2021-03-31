@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+<title>첫 게시물</title>
+
+
+  
+
+
+  
+  <script data-goatcounter="https://freenice12.github.io/count"
+          async src="//freenice12.github.io/count.js"></script>
+
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  href="https://freenice12.github.io/index.xml"
+  title="freenice12&#39;s blog"
+/>
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="첫 게시물"/>
+<meta name="twitter:description" content="휴고(hugo)를 이용한 github 페이지 작성하기  본 게시물은 mac 환경에서 작성 되었습니다. placeholder($$)안의 내용은 직접 변경하셔야 합니다.
+ 준비 hugo with brew $ brew install hugo github 먼저, github에 repository를 생성해야 합니다. github에 페이지를 노출하는게 목표이기 때문입니다.
+ myblog:  ex) https://github.com/$yourrepo$/myblog 컨텐츠 저장용 저장소입니다.   .github.io:  ex) https://github.com/$yourrepo$/$yourrepo$.github.io 실제 블로그를 게시할 저장소입니다. 단, 이 저장소를 생성할 때 READEME.md 파일을 함께 생성(체크) 해주세요.  추후 블로그에 서브 모듈을 추가할 때 사소한 문제가 생길 수 있습니다."/>
+
+
+
+<link rel="stylesheet" href="https://freenice12.github.io/fontawesome/css/all.min.css" />
+
+<link
+  id="dark-mode-theme"
+  rel="stylesheet"
+  href="https://freenice12.github.io/css/dark.css"
+/>
+
+<script>
+  var darkTheme = document.getElementById('dark-mode-theme')
+  var storedTheme = localStorage.getItem('dark-mode-storage')
+  if (storedTheme === 'dark') {
+    darkTheme.disabled = false
+  } else if (storedTheme === 'light') {
+    darkTheme.disabled = true
+  }
+</script>
+
+<script src="https://freenice12.github.io/js/main.bundle.js"></script>
+<meta name="generator" content="Hugo 0.82.0" />
+  </head>
+  <body>
+    
+  
+
+
+
+
+  <header>
+    <nav class="navbar">
+  <div class="nav">
+    
+        <a href="https://freenice12.github.io/" class="nav-logo">
+        <img
+          src="https://freenice12.github.io/images/icon.jpg"
+          width="50"
+          height="50"
+          alt="Logo"
+        />
+        </a>
+    
+
+    <ul class="nav-links">
+      
+        
+          <li>
+            <a href="/about" id="About"
+              ><em class="fas fa-user fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/tags" id="Tags"
+              ><em class="fas fa-tag fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/categories" id="Category"
+              ><em class="fas fa-folder-open fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/search" id="Search"
+              ><em class="fas fa-search fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/archives" id="Archives"
+              ><em class="fas fa-archive fa-lg"></em
+            ></a>
+          </li>
+          
+      
+    </ul>
+  </div>
+</nav>
+
+    <div class="intro-header">
+      <div class="container">
+        <div class="post-heading">
+          
+            <h1>
+              첫 게시물
+            </h1>
+          
+          
+            <span class="meta-post">
+  <em class="fa fa-calendar-alt"></em
+  >&nbsp;Mar 30, 2021
+  
+</span>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+  
+
+    
+  <div class="container" role="main">
+    <article class="article" class="blog-post">
+      
+  <h1 id="휴고hugo를-이용한-github-페이지-작성하기">휴고(hugo)를 이용한 github 페이지 작성하기</h1>
+<blockquote>
+<p>본 게시물은 mac 환경에서 작성 되었습니다. placeholder($$)안의 내용은 직접 변경하셔야 합니다.</p>
+</blockquote>
+<h2 id="준비">준비</h2>
+<h3 id="hugo-with-brew">hugo with brew</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ brew install hugo
+</code></pre></div><h3 id="github">github</h3>
+<p>먼저, github에 repository를 생성해야 합니다. github에 페이지를 노출하는게 목표이기 때문입니다.</p>
+<ul>
+<li>myblog:
+<ul>
+<li>ex) <a href="https://github.com/$yourrepo$/myblog">https://github.com/$yourrepo$/myblog</a></li>
+<li>컨텐츠 저장용 저장소입니다.</li>
+</ul>
+</li>
+<li><!-- raw HTML omitted -->.github.io:
+<ul>
+<li>ex) <a href="https://github.com/$yourrepo$/$yourrepo$.github.io">https://github.com/$yourrepo$/$yourrepo$.github.io</a></li>
+<li>실제 블로그를 게시할 저장소입니다.</li>
+<li><strong>단, 이 저장소를 생성할 때 READEME.md 파일을 함께 생성(체크) 해주세요.</strong>
+<ul>
+<li>추후 블로그에 서브 모듈을 추가할 때 사소한 문제가 생길 수 있습니다.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="테마-쇼핑">테마 쇼핑</h3>
+<p>아래 사이트에서 테마를 먼저 골라보세요.</p>
+<ul>
+<li><a href="https://themes.gohugo.io/">https://themes.gohugo.io/</a></li>
+</ul>
+<h3 id="local">local</h3>
+<p>이제 내 컴퓨터에 블로그 포스팅을 위한 저장소를 클론하겠습니다.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 원하는 폴더로 이동</span>
+$ mkdir /path/to/myblog/root
+$ cd /path/to/myblog/root
+
+<span style="color:#75715e"># 블로그 생성</span>
+$ hugo new site myblog
+$ cd myblog
+
+<span style="color:#75715e"># 구조 확인 or ls</span>
+$ ll
+</code></pre></div><p>이제부터는 깃허브 저장소와 연동을 할 차례입니다.</p>
+<ul>
+<li>myblog 저장소 연결
+<ul>
+<li><a href="https://github.com/$yourrepo$/myblog">https://github.com/$yourrepo$/myblog</a></li>
+</ul>
+</li>
+<li>publish 저장소 연결
+<ul>
+<li><a href="https://github.com/$yourrepo$/$yourrepo$.github.io">https://github.com/$yourrepo$/$yourrepo$.github.io</a></li>
+<li><strong>이 저장소를 생성할 때 README.md 라도 만들어 두지 않으면 경고 문구를 만나게 됩니다!</strong></li>
+</ul>
+</li>
+<li>쇼핑한 테마 저장소 연결
+<ul>
+<li>쇼핑한 저장소는 두 가지 방법중 택해서 연동합니다.
+<ul>
+<li>fork 한 후 연결</li>
+<li>직접 연결</li>
+<li><em>각 테마 메인 페이지 등을 살펴보시면 설정에 참고할 수 있도록 코드가 있습니다.</em></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>테마는 fork 한 후 연동하는 것을 추천합니다. 커스텀(저는 제외 ㅠㅠ)을 하던지 최신으로 동기화 하던지 먼저 내손을 거쳐야만 하기 때문에 좀 더 이점이 있습니다.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># myblog 저장소 연결</span>
+$ git remote add origin https://github.com/$yourrepo$/blog.git
+
+<span style="color:#75715e"># publish 할 저장소 연결 - 이름은 public 으로...</span>
+$ git submodule add https://github.com/$yourrepo$/$yourrepo$.github.io.git public
+
+<span style="color:#75715e"># 테마 연결</span>
+$ cd themes
+$ git submodule add https://github.com/$yourrepo$/&lt;themename&gt;.git &lt;themename&gt;
+</code></pre></div><h4 id="환경-설정">환경 설정</h4>
+<p>기본적인 준비는 마쳤습니다.</p>
+<p>이제 myblog 루트에 config.toml 파일을 수정합니다. 이 파일은 <em>각 테마의 메인 페이지 등에 설정에 참고할 수 있는 코드가 있습니다.</em></p>
+<p>저의 경우에는 아래 설정을 가장 먼저 변경했습니다.</p>
+<pre><code>theme = &quot;&lt;themename&gt;&quot;
+baseurl = &quot;https://$yourrepo$.github.io/&quot;
+title = &quot;&lt;title&gt;&quot;
+</code></pre><h2 id="확인local">확인(local)</h2>
+<p>이제 내 컴퓨터에서 블로그를 직접 확인해봅니다. 자세한 내용은 <a href="https://gohugo.io">휴고 홈</a> 페이지(<a href="https://gohugo.io/commands/hugo_server/#options">옵션 관련 페이지</a>)를 확인합니다.</p>
+<p>먼저 게시글을 작성하고 확인해봅니다.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 게시글 생성</span>
+$ hugo new post/first.md
+
+<span style="color:#75715e"># 게시글 작성</span>
+$ vim post/first.md
+
+<span style="color:#75715e"># 게시글 확인</span>
+$ hugo server -D
+</code></pre></div><ul>
+<li>localhost:1313 에서 확인할 수 있습니다.</li>
+<li>위에서 게시글을 생성하면 최초에 draft(draft: true)로 생성되기 때문에 별다른 수정을 하지 않고 게시글 작성을 마쳤다면 &lsquo;-D&rsquo; 옵션을 통해 draft 게시글도 확인할 수 있게 실행해야 합니다.</li>
+</ul>
+<h2 id="공개">공개!</h2>
+<h3 id="저장소-최신화">저장소 최신화</h3>
+<p>드디어 내가 작성한 게시글을 공개합니다. 위에서 생성한 게시글의 draft를 삭제하거나 false 로 변경하면 게시글이 공개되는데, 이를 github를 통해서 공개하기 위해서는 우리가 수정하고 설정한 코드와 문서들을 github에 push 해야 합니다.</p>
+<ul>
+<li>순서:
+<ul>
+<li>hugo 빌드</li>
+<li>public(문서가 저장될 공개 저장소: $yourrepo$.github.io) 저장소에 빌드 결과물 push</li>
+<li>hugo 파일 등을 myblog 저장소에 push</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 빌드할 때 사용할 테마는 myblog/themes 하위 폴더를 참조합니다.</span>
+$ hugo -t &lt;themename&gt;
+
+<span style="color:#75715e"># public push</span>
+$ cd public <span style="color:#75715e"># ..../myblog/public</span>
+$ git add .
+$ git commit -m <span style="color:#e6db74">&#39;&lt;message&gt;&#39;</span>
+$ git push origin <span style="color:#75715e"># 오류가 발생하는 경우 오류 메시지의 명령어를 실행하세요 ex) git push --set-upstream origin master</span>
+
+<span style="color:#75715e"># myblog push</span>
+$ cd .. <span style="color:#75715e"># ..../myblog</span>
+$ git add .
+$ git commit -m <span style="color:#e6db74">&#39;&lt;message&gt;&#39;</span>
+$ git push --set-upstream origin master
+</code></pre></div><h3 id="확인">확인</h3>
+<p>이제 드디어 블로그를 확인할 시간입니다. 우리가 정한 페이지로 브라우저에서 접속해 봅니다.</p>
+<p>주소: $yourrepo$.github.io</p>
+<p>이제 페이지를 확인 후 즐겁게 하던일을 합니다!!</p>
+<h2 id="저장소-최신화-optional-자동화">저장소 최신화 (optional) 자동화</h2>
+<h3 id="cli-명령-이어-붙이기">cli 명령 이어 붙이기</h3>
+<blockquote>
+<p>스크립트 사용하기 어려울 때 themename 과 message 만 수정해서 사용할 수 있습니다. 하지만 스크립트로 자동화 하는것을 추천합니다.</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># hugo 빌드 &amp;&amp; public push &amp;&amp; myblog push</span>
+$ hugo -t &lt;themename&gt;
+  <span style="color:#f92672">&amp;&amp;</span> cd public
+  <span style="color:#f92672">&amp;&amp;</span> git add .
+  <span style="color:#f92672">&amp;&amp;</span> git commit -m <span style="color:#e6db74">&#39;&lt;message&gt;&#39;</span>
+  <span style="color:#f92672">&amp;&amp;</span> git push origin --set-upstream origin master
+  <span style="color:#f92672">&amp;&amp;</span> cd ..
+  <span style="color:#f92672">&amp;&amp;</span> git add .
+  <span style="color:#f92672">&amp;&amp;</span> git commit -m <span style="color:#e6db74">&#39;&lt;message&gt;&#39;</span>
+  <span style="color:#f92672">&amp;&amp;</span> git push --set-upstream origin master
+</code></pre></div><h3 id="쉘-스크립트를-이용한-자동화">쉘 스크립트를 이용한 자동화</h3>
+<blockquote>
+<p>블로그 루트 폴더(&hellip;./myblob)에 publish.sh 파일 생성 후 실행할 수 있도록 권한을 변경</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e">#!/bin/bash
+</span><span style="color:#75715e"></span>
+echo <span style="color:#e6db74">&#34;=========&#34;</span>
+echo <span style="color:#e6db74">&#34;publising&#34;</span>
+echo <span style="color:#e6db74">&#34;=========&#34;</span>
+
+hugo -t harbor
+
+cd public
+git add .
+msg<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;hugo build: `date`&#34;</span>
+<span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> $# -eq <span style="color:#ae81ff">1</span> <span style="color:#f92672">]</span>
+  <span style="color:#66d9ef">then</span> msg<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span>$1<span style="color:#e6db74">&#34;</span>
+<span style="color:#66d9ef">fi</span>
+git commit -m <span style="color:#e6db74">&#34;</span>$msg<span style="color:#e6db74">&#34;</span>
+git push
+
+cd ..
+git add .
+msg<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;published: `date`&#34;</span>
+<span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> $# -eq <span style="color:#ae81ff">1</span> <span style="color:#f92672">]</span>
+  <span style="color:#66d9ef">then</span> msg<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span>$1<span style="color:#e6db74">&#34;</span>
+<span style="color:#66d9ef">fi</span>
+git commit -m <span style="color:#e6db74">&#34;</span>$msg<span style="color:#e6db74">&#34;</span>
+git push
+</code></pre></div><h2 id="끝">끝!</h2>
+
+
+
+
+      
+    </article>
+    
+    
+      
+
+    
+  </div>
+
+    <footer>
+  
+  <div>
+    
+      <a href="https://www.github.com/freenice12" name="github"
+        ><em class="A icon from https://fontawesome.com/"></em
+      ></a>
+    
+
+
+
+
+  
+  <div class="container">
+    <p class="credits copyright">
+      <a href="https://freenice12.github.io/about">freenice12</a>
+      &nbsp;&copy;
+      2021
+      
+        &nbsp;/&nbsp;
+        <a href="https://freenice12.github.io/">freenice12&#39;s blog</a>
+      
+      &nbsp;&ndash;&nbsp;
+      <em class="fas fa-moon" id="dark-mode-toggle"></em>
+    </p>
+
+    <p class="credits theme-by">
+      Powered By <a href="https://gohugo.io">Hugo</a>&nbsp;
+      Theme
+      <a href="https://github.com/matsuyoshi30/harbor">Harbor</a>
+    </p>
+  </div>
+</footer>
+
+  </body>
+</html>
