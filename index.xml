@@ -9,10 +9,22 @@
 		
 		<managingEditor>Page(&#34;freenice12&#39;s blog&#34;) (freenice12)</managingEditor>
     	
-  		<lastBuildDate>Tue, 30 Mar 2021 23:21:35 +0900</lastBuildDate>
+  		<lastBuildDate>Sun, 04 Apr 2021 21:23:58 +0900</lastBuildDate>
 		
 		<atom:link href="/" rel="self" type="application/rss+xml" />
 		
+		<item>
+			<title>Total Function</title>
+			<link>https://freenice12.github.io/post/total-function/</link>
+			<pubDate>Sun, 04 Apr 2021 21:23:58 +0900</pubDate>
+			<guid>https://freenice12.github.io/post/total-function/</guid>
+			<description>완전 함수 - Scala With Cats library 먼저 제가 좋아하는 분 중 한 분인 케븬 님은 이렇게 조언해 주셨습니다.
+ &amp;ldquo;캣츠 라이브러리 사용 전 먼저 해보면 좋은 작업 중 하나는 일반 함수를 완전 함수(Total Function)로 만드는 작업입니다.&amp;rdquo;
+ 저는 아래와 같은 계획으로 코딩을 해보려고 했습니다.
+ 자바처럼 스칼라 코드 작성하기 라이브러리(캣츠 이팩트) 사용하기  그런데 위 내용을 토대로 해서 순서를 수정하면,
+ 자바처럼 스칼라 코드 작성하기  완전 함수로 작성하기   라이브러리(캣츠 이팩트) 사용하기  그럼 완전 함수는 뭔지 먼저 알아보겠습니다.</description>
+		</item>
+      	
 		<item>
 			<title>첫 게시물</title>
 			<link>https://freenice12.github.io/post/first/</link>

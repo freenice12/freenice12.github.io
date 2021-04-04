@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+<title>Total Function</title>
+
+
+  
+
+
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  href="https://freenice12.github.io/index.xml"
+  title="freenice12&#39;s blog"
+/>
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Total Function"/>
+<meta name="twitter:description" content="완전 함수 - Scala With Cats library 먼저 제가 좋아하는 분 중 한 분인 케븬 님은 이렇게 조언해 주셨습니다.
+ &ldquo;캣츠 라이브러리 사용 전 먼저 해보면 좋은 작업 중 하나는 일반 함수를 완전 함수(Total Function)로 만드는 작업입니다.&rdquo;
+ 저는 아래와 같은 계획으로 코딩을 해보려고 했습니다.
+ 자바처럼 스칼라 코드 작성하기 라이브러리(캣츠 이팩트) 사용하기  그런데 위 내용을 토대로 해서 순서를 수정하면,
+ 자바처럼 스칼라 코드 작성하기  완전 함수로 작성하기   라이브러리(캣츠 이팩트) 사용하기  그럼 완전 함수는 뭔지 먼저 알아보겠습니다."/>
+
+
+
+<link rel="stylesheet" href="https://freenice12.github.io/fontawesome/css/all.min.css" />
+
+<link
+  id="dark-mode-theme"
+  rel="stylesheet"
+  href="https://freenice12.github.io/css/dark.css"
+/>
+
+<script>
+  var darkTheme = document.getElementById('dark-mode-theme')
+  var storedTheme = localStorage.getItem('dark-mode-storage')
+  if (storedTheme === 'dark') {
+    darkTheme.disabled = false
+  } else if (storedTheme === 'light') {
+    darkTheme.disabled = true
+  }
+</script>
+
+<script src="https://freenice12.github.io/js/main.bundle.js"></script>
+<meta name="generator" content="Hugo 0.82.0" />
+  </head>
+  <body>
+    
+  
+
+
+
+
+  <header>
+    <nav class="navbar">
+  <div class="nav">
+    
+        <a href="https://freenice12.github.io/" class="nav-logo">
+        <img
+          src="https://freenice12.github.io/images/icon.jpg"
+          width="50"
+          height="50"
+          alt="Logo"
+        />
+        </a>
+    
+
+    <ul class="nav-links">
+      
+        
+          <li>
+            <a href="/about" id="About"
+              ><em class="fas fa-user fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/tags" id="Tags"
+              ><em class="fas fa-tag fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/categories" id="Category"
+              ><em class="fas fa-folder-open fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/search" id="Search"
+              ><em class="fas fa-search fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/archives" id="Archives"
+              ><em class="fas fa-archive fa-lg"></em
+            ></a>
+          </li>
+          
+      
+    </ul>
+  </div>
+</nav>
+
+    <div class="intro-header">
+      <div class="container">
+        <div class="post-heading">
+          
+            <h1>
+              Total Function
+            </h1>
+          
+          
+            <span class="meta-post">
+  <em class="fa fa-calendar-alt"></em
+  >&nbsp;Apr 4, 2021
+  
+</span>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+  
+
+    
+  <div class="container" role="main">
+    <article class="article" class="blog-post">
+      
+  <h1 id="완전-함수---scala-with-cats-library">완전 함수 - Scala With Cats library</h1>
+<h2 id="먼저">먼저</h2>
+<p>제가 좋아하는 분 중 한 분인 케븬 님은 이렇게 조언해 주셨습니다.</p>
+<blockquote>
+<p>&ldquo;캣츠 라이브러리 사용 전 먼저 해보면 좋은 작업 중 하나는 일반 함수를 완전 함수(Total Function)로 만드는 작업입니다.&rdquo;</p>
+</blockquote>
+<p>저는 아래와 같은 계획으로 코딩을 해보려고 했습니다.</p>
+<ul>
+<li>자바처럼 스칼라 코드 작성하기</li>
+<li>라이브러리(캣츠 이팩트) 사용하기</li>
+</ul>
+<p>그런데 위 내용을 토대로 해서 순서를 수정하면,</p>
+<ul>
+<li>자바처럼 스칼라 코드 작성하기
+<ul>
+<li>완전 함수로 작성하기</li>
+</ul>
+</li>
+<li>라이브러리(캣츠 이팩트) 사용하기</li>
+</ul>
+<p>그럼 완전 함수는 뭔지 먼저 알아보겠습니다.</p>
+<h2 id="완전-함수total-function">완전 함수(Total Function)</h2>
+<p>완전 함수는 &ldquo;모든 입력값에 대해 정의된 함수&quot;라고 설명되어 있습니다. 완전 함수와 친한 관계인 부분 함수(Partial Function)와 함께 아주 상황을 가정해보면 아래 코드와 같습니다(프로그래밍에선 완전 함수와 부분 함수라는 표현을 사용). 다만, 수학에서 말하는 함수는 완전 함수를 칭합니다. 예를 들어 y = x 같은 함수가 있습니다.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#75715e">// 억지 스러운 예제인건 아량으로 넘어가주시고...
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">// Partial Function
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">def</span> divideP<span style="color:#f92672">(</span>a<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Int</span><span style="color:#f92672">,</span> b<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Int</span><span style="color:#f92672">)</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">String</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">s&#34;Answer: </span><span style="color:#e6db74">${</span>a<span style="color:#f92672">/</span>b<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+
+<span style="color:#75715e">// Total Function
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">def</span> divideT<span style="color:#f92672">(</span>a<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Int</span><span style="color:#f92672">,</span> b<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Int</span><span style="color:#f92672">)</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">String</span> <span style="color:#f92672">=</span> b <span style="color:#66d9ef">match</span> <span style="color:#f92672">{</span>
+  <span style="color:#66d9ef">case</span> <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">=&gt;</span> <span style="color:#e6db74">&#34;b must not be ZERO(0)!&#34;</span>
+  <span style="color:#66d9ef">case</span> <span style="color:#66d9ef">_</span> <span style="color:#66d9ef">=&gt;</span> <span style="color:#e6db74">s&#34;Answer: </span><span style="color:#e6db74">${</span>a<span style="color:#f92672">/</span>b<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>차이는 한가지 입니다. &ldquo;어떤 함수가 &lsquo;가능한 입력&rsquo;을 모두 다뤘느냐&rdquo;. 그리고 비슷한 예로 Enum을 생각해보면 쉽습니다.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">enum</span> State <span style="color:#f92672">{</span>
+  Start<span style="color:#f92672">,</span> Progress<span style="color:#f92672">,</span> End
+<span style="color:#f92672">}</span>
+
+<span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">switch</span><span style="color:#f92672">(</span>state<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+  <span style="color:#66d9ef">case</span> Start<span style="color:#f92672">:</span>
+  <span style="color:#75715e">// do something
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">break</span><span style="color:#f92672">;</span>
+  <span style="color:#66d9ef">case</span> Progress<span style="color:#f92672">:</span>
+  <span style="color:#75715e">// do something
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">break</span><span style="color:#f92672">;</span>
+  <span style="color:#66d9ef">case</span> End<span style="color:#f92672">:</span>
+  <span style="color:#75715e">// do something
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">break</span><span style="color:#f92672">;</span>
+<span style="color:#f92672">}</span>
+
+<span style="color:#75715e">// 혹은
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">switch</span><span style="color:#f92672">(</span>state<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+  <span style="color:#66d9ef">case</span> Progress<span style="color:#f92672">:</span>
+  <span style="color:#75715e">// do progress
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">break</span><span style="color:#f92672">;</span>
+  <span style="color:#66d9ef">default</span><span style="color:#f92672">:</span>
+  <span style="color:#75715e">// do nothing
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">break</span><span style="color:#f92672">;</span>
+<span style="color:#f92672">}</span>
+
+</code></pre></div><h3 id="에러-타입-사용-전">에러 타입 사용 전</h3>
+<p>이런 식의 코드로 완전 함수를 표현할 수 있습니다. 하지만 종종 우리가 스위치 문을 다룰 땐 default 등은 빼놓기도 하고 if-else로 복잡한 코드가 구현되어 있을 때 구멍이 생기기도 하는 등(혹은 구멍이 생긴 논리의 흐름이 몽땅 else 부분을 통과한다든지&hellip;) 신경을 써야 하는 부분이 존재합니다.</p>
+<p>그래서 위 스칼라 문서에서 소개하는 방법이 &ldquo;Option(자바의 Optional과 비슷)이나 Either를 활용하자&rdquo; 입니다. 이 내용을 듣기 전에 저는 아래와 같은 형식으로 완전 함수를 구현했는데요. 아래의 형식으로 구현해도 의미가 충분히 전달되는 경우 상관없지만, 그 외에는(<del>else ㅋㅋ</del>) 에러 타입을 사용하는 편이 훨씬 좋은 방법이라고 하셨습니다.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#66d9ef">trait</span> <span style="color:#a6e22e">FeTrait</span>
+<span style="color:#66d9ef">case</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">FullAbc</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">extends</span> <span style="color:#a6e22e">FeTrait</span>
+<span style="color:#66d9ef">case</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">EmptyAbc</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">extends</span> <span style="color:#a6e22e">FeTrait</span>
+
+<span style="color:#66d9ef">def</span> feFun<span style="color:#f92672">(</span>n<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Int</span><span style="color:#f92672">)</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">FeTrait</span> <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>
+  <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+    <span style="color:#75715e">// 뚝딱뚝딱
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">FullAbc</span><span style="color:#f92672">()</span>
+  <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">case</span> e<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Exception</span> <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">EmptyAbc</span><span style="color:#f92672">()</span>
+  <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+
+</code></pre></div><h3 id="에러-타입-사용-후">에러 타입 사용 후</h3>
+<h4 id="option-either">Option, Either</h4>
+<p>Option과 Either는 많이 사용하는 에러 타입입니다. Option의 경우 결과가 있는지 없는지를 표현할 때, Either는 내가 수행한 함수의 결과가 정상인지 비정상인지 나타내는 효율적인 타입입니다. 역시 자세한 <a href="https://2020-hindsight-scala.kevinly.dev/docs/more-types/#error-handling">설명과 코드</a>를 확인 하실 수 있습니다. 아래 간략히 코드로 써보겠습니다.</p>
+<p>특정 맵의 임의의 키로 값을 찾는 경우에는 그 맵에 해당 키(값)가 없을 수 있기 때문에 Option으로 표현할 수 있습니다. 그리고 드라이버를 연결할 때 드라이버를 찾을 수 없어 에러가 발생하는 경우(Left)와 찾은 드라이버를 반환하는 정상인 경우(Right - 중의적 표현)로 표현할 수 있습니다.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#75715e">// 특정 맵의 특정 키로 값을 찾는 함수
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">def</span> getFrom<span style="color:#f92672">(</span>map<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Map</span><span style="color:#f92672">[</span><span style="color:#66d9ef">Int</span>, <span style="color:#66d9ef">String</span><span style="color:#f92672">],</span> key<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Int</span><span style="color:#f92672">)</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Option</span><span style="color:#f92672">[</span><span style="color:#66d9ef">String</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">=</span> <span style="color:#f92672">???</span>
+
+<span style="color:#75715e">// 드라이버 연결
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">def</span> conn<span style="color:#f92672">(</span>from<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">String</span><span style="color:#f92672">)</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Either</span><span style="color:#f92672">[</span><span style="color:#66d9ef">NotFound</span>, <span style="color:#66d9ef">Driver</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">=</span> <span style="color:#f92672">???</span>
+</code></pre></div><h2 id="에러-타입을-사용한-완전-함수">에러 타입을 사용한 완전 함수</h2>
+<p>결과적으로 처음 작성했던 feFunc 함수의 경우 에러 타입을 이용해 완전 함수로 수정하면 아래와 같이 사용할 수 있습니다.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#75715e">// 변경 전
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">def</span> feFun<span style="color:#f92672">(</span>n<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Int</span><span style="color:#f92672">)</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">FeTrait</span> <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>
+  <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+    <span style="color:#75715e">// 뚝딱뚝딱
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">FullAbc</span><span style="color:#f92672">()</span>
+  <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">case</span> e<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Exception</span> <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">EmptyAbc</span><span style="color:#f92672">()</span>
+  <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+
+<span style="color:#75715e">// 변경 후
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">def</span> feFunT<span style="color:#f92672">(</span>n<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Int</span><span style="color:#f92672">)</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Either</span><span style="color:#f92672">[</span><span style="color:#66d9ef">Exception</span>, <span style="color:#66d9ef">FeTrait</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">=</span> <span style="color:#f92672">{</span>
+  <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+    <span style="color:#75715e">// 뚝딱뚝딱
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">Right</span><span style="color:#f92672">(</span><span style="color:#a6e22e">FullAbc</span><span style="color:#f92672">())</span>
+  <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">case</span> e<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Exception</span> <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">Left</span><span style="color:#f92672">(</span>e<span style="color:#f92672">)</span>
+  <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+
+<span style="color:#75715e">// 정상 결과
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">Either</span><span style="color:#f92672">[</span><span style="color:#66d9ef">Exception</span>, <span style="color:#66d9ef">FeTrait</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">=</span> <span style="color:#a6e22e">Right</span><span style="color:#f92672">(</span><span style="color:#a6e22e">FullAbc</span><span style="color:#f92672">())</span>
+
+<span style="color:#75715e">// 비정상 결과
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">Either</span><span style="color:#f92672">[</span><span style="color:#66d9ef">Exception</span>, <span style="color:#66d9ef">FeTrait</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">=</span> <span style="color:#a6e22e">Left</span><span style="color:#f92672">(</span>java<span style="color:#f92672">.</span>lang<span style="color:#f92672">.</span><span style="color:#a6e22e">ArithmeticException</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">/</span> <span style="color:#66d9ef">by</span> <span style="color:#66d9ef">zero</span><span style="color:#f92672">)</span>
+
+</code></pre></div><p>위 코드처럼 에러 타입을 이용한 완전 함수를 작성한 경우 함수의 합성 등에서 좀 더 직관적으로 한쪽의 결과(Right or Left) 만 집중적으로 생각하고 다룰 수 있습니다. 그리고 캣츠를 사용한 코드도 <a href="https://2020-hindsight-scala.kevinly.dev/docs/more-types/#use-either">이 링크</a>에서 확인하실 수 있습니다. 코드를 더 읽기 쉽게 작성할 수 있도록 도와줬다고 생각됩니다.</p>
+<h2 id="기타">기타</h2>
+<ul>
+<li>읽어볼 거리:
+<ul>
+<li>스칼라 나잇 발표 - <a href="https://www.slideshare.net/ikhoon1/real-world-cats-93894867">실 세계의 캣츠</a> 슬라이드 쉐어</li>
+</ul>
+</li>
+</ul>
+
+
+
+
+      
+    </article>
+    
+    
+      
+
+    
+  </div>
+
+    <footer>
+  
+  <div>
+    
+      <a href="https://www.github.com/freenice12" name="github"
+        ><em class="A icon from https://fontawesome.com/"></em
+      ></a>
+    
+
+
+
+
+  
+  <div class="container">
+    <p class="credits copyright">
+      <a href="https://freenice12.github.io/about">freenice12</a>
+      &nbsp;&copy;
+      2021
+      
+        &nbsp;/&nbsp;
+        <a href="https://freenice12.github.io/">freenice12&#39;s blog</a>
+      
+      &nbsp;&ndash;&nbsp;
+      <em class="fas fa-moon" id="dark-mode-toggle"></em>
+    </p>
+
+    <p class="credits theme-by">
+      Powered By <a href="https://gohugo.io">Hugo</a>&nbsp;
+      Theme
+      <a href="https://github.com/matsuyoshi30/harbor">Harbor</a>
+    </p>
+  </div>
+</footer>
+
+  </body>
+</html>
