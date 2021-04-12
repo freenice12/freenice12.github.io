@@ -9,10 +9,22 @@
 		
 		<managingEditor>Page(&#34;freenice12&#39;s blog&#34;) (freenice12)</managingEditor>
     	
-  		<lastBuildDate>Sun, 04 Apr 2021 21:23:58 +0900</lastBuildDate>
+  		<lastBuildDate>Mon, 12 Apr 2021 23:24:16 +0900</lastBuildDate>
 		
 		<atom:link href="/" rel="self" type="application/rss+xml" />
 		
+		<item>
+			<title>Deprecated Implicit Conversion</title>
+			<link>https://freenice12.github.io/post/deprecated-implicit-conversion/</link>
+			<pubDate>Mon, 12 Apr 2021 23:24:16 +0900</pubDate>
+			<guid>https://freenice12.github.io/post/deprecated-implicit-conversion/</guid>
+			<description>스칼라의 Implicit 마법과 작별 준비 스칼라에서 implicit, implicitly가 저 같은 입문자를 괴롭힌다는 소식을 접했지만 이내 Scala 3에서는 사용하지 않아도 충분한 대안이 마련되었다고 합니다. 대안은 다음 글에 작성하도록 하겠습니다(아직은 몰라요).
+그럼 implicit이 사라지기 전에 가볍게 한 번 보고 지나가겠습니다.
+예제 스칼라를 더 나은 자바로 사용하기 위해서 아래와 같은 코드를 사용했습니다. 이 예제 하나를 위해서는 그럭저럭 작성할 만한 코드같습니다.
+먼저 아래 코드를 보시죠.
+입장 case class Point(x: Int, y: Int) @tailrec def sumP(xs: List[Point], acc: Point = Point(0, 0)): Point = xs match { case h :: t =&amp;gt; sumP(t, Point(acc.</description>
+		</item>
+      	
 		<item>
 			<title>Total Function</title>
 			<link>https://freenice12.github.io/post/total-function/</link>
