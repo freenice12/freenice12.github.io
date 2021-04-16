@@ -19,8 +19,8 @@
 />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="제스트에서 타입스크립트 테스트 하기(with babel)"/>
-<meta name="twitter:description" content="타입스크립트 테스트하기 준비 $ yarn add --dev jest $ yarn add --dev babel-jest @babel/core @babel/preset-env @babel/preset-typescript @types/jest 타입스크립트를 jest로 테스트 할때 Typescript를 사용하기 위해서는 ES6&#43; 하위 호환 및 ts -&gt; js 변환을 위한 babel이란 녀석이 꼭 필요하다고 합니다.
-과정  Typescript를 사용하는 프로젝트인데 jest를 사용하고 싶었다. import부터 제대로 되지 않는다&hellip;
+<meta name="twitter:description" content="타입스크립트 테스트하기 준비 $ yarn add --dev jest $ yarn add --dev babel-jest @babel/core @babel/preset-env @babel/preset-typescript @types/jest 타입스크립트를 jest로 테스트 할때 TypeScript를 사용하기 위해서는 ES6&#43; 하위 호환 및 ts -&gt; js 변환을 위한 babel이란 녀석이 꼭 필요하다고 합니다.
+과정  TypeScript를 사용하는 프로젝트인데 jest를 사용하고 싶었다. import부터 제대로 되지 않는다&hellip;
  프론트에서도 테스트를 사용해 내가 원하는 기능은 먼저 테스트해 보고, 화면을 그리는 UI나에게는 매우 어려운 작업은 눈으로 테스트해 보려고 했습니다. 그런데 처음부터 만나게 된 import를 할 수 없다는 오류 메시지."/>
 
 
@@ -143,10 +143,10 @@
 <h2 id="준비">준비</h2>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ yarn add --dev jest
 $ yarn add --dev babel-jest @babel/core @babel/preset-env @babel/preset-typescript @types/jest
-</code></pre></div><p>타입스크립트를 jest로 테스트 할때 Typescript를 사용하기 위해서는 ES6+ 하위 호환 및 ts -&gt; js 변환을 위한 <code>babel</code>이란 녀석이 꼭 필요하다고 합니다.</p>
+</code></pre></div><p>타입스크립트를 jest로 테스트 할때 TypeScript를 사용하기 위해서는 ES6+ 하위 호환 및 ts -&gt; js 변환을 위한 <code>babel</code>이란 녀석이 꼭 필요하다고 합니다.</p>
 <h3 id="과정">과정</h3>
 <blockquote>
-<p>Typescript를 사용하는 프로젝트인데 jest를 사용하고 싶었다. import부터 제대로 되지 않는다&hellip;</p>
+<p>TypeScript를 사용하는 프로젝트인데 jest를 사용하고 싶었다. import부터 제대로 되지 않는다&hellip;</p>
 </blockquote>
 <p>프론트에서도 테스트를 사용해 내가 원하는 기능은 먼저 테스트해 보고, 화면을 그리는 UI<del>나에게는 매우 어려운</del> 작업은 눈으로 테스트해 보려고 했습니다. 그런데 처음부터 만나게 된 import를 할 수 없다는 오류 메시지..</p>
 <p>먼저 위 준비과정의 jest, typescript, babel(너는 왜? ㅠㅠ)을 설치해주고, 다음으로 관련 설정들을 설정 파일을 통해 작성합니다(아래 설정 파일들은 프로젝트 루트에 생성).</p>
