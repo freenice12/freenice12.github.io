@@ -12,6 +12,15 @@
 		<atom:link href="/tags/" rel="self" type="application/rss+xml" />
 		
 		<item>
+			<title>Misunderstanding over the TDD</title>
+			<link>https://freenice12.github.io/post/tdd-myth/</link>
+			<pubDate>Tue, 20 Apr 2021 21:24:51 +0900</pubDate>
+			<guid>https://freenice12.github.io/post/tdd-myth/</guid>
+			<description>TDD 오해 - 1  TDD 하는 사람들은 모든 기능을 구현할 때 TDD를(만) 이용해서 구현한다.
+ 많은 분이 이야기하듯 모든 기능에 TDD를 사용할 필요는 없습니다. 물론 가능은 하겠지만, 시간이나 에너지의 낭비가 될 수 있습니다. 예를 들어 데이터베이스에 저장이 잘 되는지 HTTP 호출은 잘 되는지 등 굳이 테스트하지 않아도 되는 부분이 존재하기 마련입니다. 혹은 HTML에서 내가 그리게 될 요소가 잘 그려지는지, 어느 위치에 그려지는지 등은 꼭 TDD를 통해 작성하지 않아도 직접 테스트해 결과를 확인할 수 있고 피드백도 빠르게 받을 수 있습니다.</description>
+		</item>
+      	
+		<item>
 			<title>제스트에서 타입스크립트 테스트 하기(with babel)</title>
 			<link>https://freenice12.github.io/post/test-jest-typescript-with-babel/</link>
 			<pubDate>Fri, 16 Apr 2021 16:28:56 +0900</pubDate>
