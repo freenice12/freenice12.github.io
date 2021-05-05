@@ -45,6 +45,16 @@
 		</item>
       	
 		<item>
+			<title>스칼라로 본 Functional Programming(FP) - 2</title>
+			<link>https://freenice12.github.io/post/brief-fp-in-scala-2/</link>
+			<pubDate>Fri, 09 Apr 2021 10:54:08 +0900</pubDate>
+			<guid>https://freenice12.github.io/post/brief-fp-in-scala-2/</guid>
+			<description>스칼라로 본 Functional Programming(FP) - 2 Cats와 함께하는 FP (Cats 문서 내용을 토대로 내용을 전개합니다.) Type classes  이전 글에서 Monoid를 이런게 있구나 하고 훑어보았습니다. 이번에는 Functor를 훑어보겠습니다.
+ Functor  Functor is a type class that abstracts over type constructors that can be map‘ed over. Examples of such type constructors are List, Option, and Future.
+ 펑터는 map이 가능한 타입 생성자를 추상화하는 type class 입니다. Monoid에서도 봤듯 type class란 어떤 행위를 할 수 있는지 미리 정해놓은 모음(일단은&amp;hellip;)이라고 봐도 좋습니다.</description>
+		</item>
+      	
+		<item>
 			<title>스칼라로 본 Functional Programming(FP) - 1</title>
 			<link>https://freenice12.github.io/post/brief-fp-in-scala-1/</link>
 			<pubDate>Thu, 08 Apr 2021 21:27:10 +0900</pubDate>

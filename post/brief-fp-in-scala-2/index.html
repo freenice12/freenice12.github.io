@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+<title>스칼라로 본 Functional Programming(FP) - 2</title>
+
+
+  
+
+
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  href="https://freenice12.github.io/index.xml"
+  title="freenice12&#39;s blog"
+/>
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="스칼라로 본 Functional Programming(FP) - 2"/>
+<meta name="twitter:description" content="스칼라로 본 Functional Programming(FP) - 2 Cats와 함께하는 FP (Cats 문서 내용을 토대로 내용을 전개합니다.) Type classes  이전 글에서 Monoid를 이런게 있구나 하고 훑어보았습니다. 이번에는 Functor를 훑어보겠습니다.
+ Functor  Functor is a type class that abstracts over type constructors that can be map‘ed over. Examples of such type constructors are List, Option, and Future.
+ 펑터는 map이 가능한 타입 생성자를 추상화하는 type class 입니다. Monoid에서도 봤듯 type class란 어떤 행위를 할 수 있는지 미리 정해놓은 모음(일단은&hellip;)이라고 봐도 좋습니다."/>
+
+
+
+<link rel="stylesheet" href="https://freenice12.github.io/fontawesome/css/all.min.css" />
+
+<link
+  id="dark-mode-theme"
+  rel="stylesheet"
+  href="https://freenice12.github.io/css/dark.css"
+/>
+
+<script>
+  var darkTheme = document.getElementById('dark-mode-theme')
+  var storedTheme = localStorage.getItem('dark-mode-storage')
+  if (storedTheme === 'dark') {
+    darkTheme.disabled = false
+  } else if (storedTheme === 'light') {
+    darkTheme.disabled = true
+  }
+</script>
+
+<script src="https://freenice12.github.io/js/main.bundle.js"></script>
+<meta name="generator" content="Hugo 0.82.0" />
+  </head>
+  <body>
+    
+  
+
+
+
+
+  <header>
+    <nav class="navbar">
+  <div class="nav">
+    
+        <a href="https://freenice12.github.io/" class="nav-logo">
+        <img
+          src="https://freenice12.github.io/images/icon.jpg"
+          width="50"
+          height="50"
+          alt="Logo"
+        />
+        </a>
+    
+
+    <ul class="nav-links">
+      
+        
+          <li>
+            <a href="/about" id="About"
+              ><em class="fas fa-user fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/tags" id="Tags"
+              ><em class="fas fa-tag fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/categories" id="Category"
+              ><em class="fas fa-folder-open fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/search" id="Search"
+              ><em class="fas fa-search fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/archives" id="Archives"
+              ><em class="fas fa-archive fa-lg"></em
+            ></a>
+          </li>
+          
+      
+    </ul>
+  </div>
+</nav>
+
+    <div class="intro-header">
+      <div class="container">
+        <div class="post-heading">
+          
+            <h1>
+              스칼라로 본 Functional Programming(FP) - 2
+            </h1>
+          
+          
+            <span class="meta-post">
+  <em class="fa fa-calendar-alt"></em
+  >&nbsp;Apr 9, 2021
+  
+</span>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+  
+
+    
+  <div class="container" role="main">
+    <article class="article" class="blog-post">
+      
+  <h1 id="스칼라로-본-functional-programmingfp---2">스칼라로 본 Functional Programming(FP) - 2</h1>
+<h2 id="cats와-함께하는-fp-cats-문서-내용을-토대로-내용을-전개합니다">Cats와 함께하는 FP (Cats 문서 내용을 토대로 내용을 전개합니다.)</h2>
+<h2 id="type-classes">Type classes</h2>
+<blockquote>
+<p><a href="/post/brief-fp-in-scala-1/">이전 글</a>에서 Monoid를 이런게 있구나 하고 훑어보았습니다. 이번에는 Functor를 훑어보겠습니다.</p>
+</blockquote>
+<h3 id="functor">Functor</h3>
+<blockquote>
+<p>Functor is a type class that abstracts over type constructors that can be map‘ed over. Examples of such type constructors are List, Option, and Future.</p>
+</blockquote>
+<p>펑터는 map이 가능한 타입 생성자를 추상화하는 type class 입니다. Monoid에서도 봤듯 type class란 어떤 행위를 할 수 있는지 미리 정해놓은 모음(일단은&hellip;)이라고 봐도 좋습니다.</p>
+<p>먼저, 캣츠 Functor 코드를 보겠습니다.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#66d9ef">trait</span> <span style="color:#a6e22e">Functor</span><span style="color:#f92672">[</span><span style="color:#66d9ef">F</span><span style="color:#f92672">[</span><span style="color:#66d9ef">_</span><span style="color:#f92672">]]</span> <span style="color:#f92672">{</span> <span style="color:#75715e">// F[_] 는 어떤 타입을 가지고 있는 효과라고 읽겠습니다.
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">def</span> map<span style="color:#f92672">[</span><span style="color:#66d9ef">A</span>, <span style="color:#66d9ef">B</span><span style="color:#f92672">](</span>fa<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">F</span><span style="color:#f92672">[</span><span style="color:#66d9ef">A</span><span style="color:#f92672">])(</span>f<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">A</span> <span style="color:#f92672">=&gt;</span> B<span style="color:#f92672">)</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">F</span><span style="color:#f92672">[</span><span style="color:#66d9ef">B</span><span style="color:#f92672">]</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>A 타입의 값을 가진 F(&ldquo;effect&rdquo; 또는 &ldquo;computational context&rdquo; 라고 부름)효과와 A 타입을 B 타입으로 바꾸는 함수를 받고, B 타입의 값을 갖는 F 효과를 반환합니다. 이게 코드를 봐도 뭘 본건지 잘 이해햐기 어렵기 때문에(추상화 어려움 ㅠㅠ) 바로 구현된 코드로 이해를 돕고있습니다.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#66d9ef">implicit</span> <span style="color:#66d9ef">val</span> functorForOption<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Functor</span><span style="color:#f92672">[</span><span style="color:#66d9ef">Option</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Functor</span><span style="color:#f92672">[</span><span style="color:#66d9ef">Option</span><span style="color:#f92672">]</span> <span style="color:#f92672">{</span>
+  <span style="color:#66d9ef">def</span> map<span style="color:#f92672">[</span><span style="color:#66d9ef">A</span>, <span style="color:#66d9ef">B</span><span style="color:#f92672">](</span>fa<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Option</span><span style="color:#f92672">[</span><span style="color:#66d9ef">A</span><span style="color:#f92672">])(</span>f<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">A</span> <span style="color:#f92672">=&gt;</span> B<span style="color:#f92672">)</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Option</span><span style="color:#f92672">[</span><span style="color:#66d9ef">B</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">=</span> fa <span style="color:#66d9ef">match</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">case</span> <span style="color:#a6e22e">None</span>    <span style="color:#66d9ef">=&gt;</span> <span style="color:#a6e22e">None</span>
+    <span style="color:#66d9ef">case</span> <span style="color:#a6e22e">Some</span><span style="color:#f92672">(</span>a<span style="color:#f92672">)</span> <span style="color:#66d9ef">=&gt;</span> <span style="color:#a6e22e">Some</span><span style="color:#f92672">(</span>f<span style="color:#f92672">(</span>a<span style="color:#f92672">))</span>
+  <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+<span style="color:#75715e">/* A =&gt; B 는 String =&gt; int 로 생각할 수 있고 convert 라는 메소드 이름(위에선 f)으로 나타낼 수 있습니다.
+</span><span style="color:#75715e">public int convert(String input) {
+</span><span style="color:#75715e"> if (input.equals(&#34;one&#34;)) return 1;
+</span><span style="color:#75715e"> return -1;
+</span><span style="color:#75715e">}
+</span><span style="color:#75715e">
+</span><span style="color:#75715e">물론 convert 자체는 나쁜 예.
+</span><span style="color:#75715e">*/</span>
+</code></pre></div><p>구현은 접어두고 다시 정의한 것을 보면 <code>map[A, B](fa: Option[A])(f: A =&gt; B): Option[B]</code> 이고, <code>F[A]</code> 와 <code>f</code>를 확인하실 수 있습니다. 이에 더해 다른 관점으로 <code>lift</code> 라는 함수도 있는데 코드로 보겠습니다.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#66d9ef">trait</span> <span style="color:#a6e22e">Functor</span><span style="color:#f92672">[</span><span style="color:#66d9ef">F</span><span style="color:#f92672">[</span><span style="color:#66d9ef">_</span><span style="color:#f92672">]]</span> <span style="color:#f92672">{</span>
+  <span style="color:#66d9ef">def</span> map<span style="color:#f92672">[</span><span style="color:#66d9ef">A</span>, <span style="color:#66d9ef">B</span><span style="color:#f92672">](</span>fa<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">F</span><span style="color:#f92672">[</span><span style="color:#66d9ef">A</span><span style="color:#f92672">])(</span>f<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">A</span> <span style="color:#f92672">=&gt;</span> B<span style="color:#f92672">)</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">F</span><span style="color:#f92672">[</span><span style="color:#66d9ef">B</span><span style="color:#f92672">]</span>
+  <span style="color:#66d9ef">def</span> lift<span style="color:#f92672">[</span><span style="color:#66d9ef">A</span>, <span style="color:#66d9ef">B</span><span style="color:#f92672">](</span>f<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">A</span> <span style="color:#f92672">=&gt;</span> B<span style="color:#f92672">)</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">F</span><span style="color:#f92672">[</span><span style="color:#66d9ef">A</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">=&gt;</span> F<span style="color:#f92672">[</span><span style="color:#66d9ef">B</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">=</span>
+    fa <span style="color:#66d9ef">=&gt;</span> map<span style="color:#f92672">(</span>fa<span style="color:#f92672">)(</span>f<span style="color:#f92672">)</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>리프트 함수는 <code>f: A =&gt; B</code>를 <code>F[A] =&gt; F[B]</code>로 승격 시키는 코드입니다. 어디선가 언젠가 써먹겠죠? 꼭 다음번 포스트에서 이를 사용하는 실 세계(real-world) 예제를 작성해 보겠습니다.</p>
+<h3 id="functors-compose">Functors compose</h3>
+<p>F 효과가 중첩된 경우(ex: F[G[_]])에 펑터의 합성을 통해 해결할 수 있습니다. 아래 코드를 보겠습니다.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#66d9ef">val</span> listOption <span style="color:#66d9ef">=</span> <span style="color:#a6e22e">List</span><span style="color:#f92672">(</span><span style="color:#a6e22e">Some</span><span style="color:#f92672">(</span><span style="color:#ae81ff">1</span><span style="color:#f92672">),</span> <span style="color:#a6e22e">None</span><span style="color:#f92672">,</span> <span style="color:#a6e22e">Some</span><span style="color:#f92672">(</span><span style="color:#ae81ff">2</span><span style="color:#f92672">))</span>
+
+<span style="color:#a6e22e">Functor</span><span style="color:#f92672">[</span><span style="color:#66d9ef">List</span><span style="color:#f92672">].</span>compose<span style="color:#f92672">[</span><span style="color:#66d9ef">Option</span><span style="color:#f92672">].</span>map<span style="color:#f92672">(</span>listOption<span style="color:#f92672">)(</span><span style="color:#66d9ef">_</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">)</span>
+<span style="color:#75715e">// res1: List[Option[Int]] = List(Some(2), None, Some(3))
+</span></code></pre></div><p>listOption 은 List(효과)에 Option(효과)이 중첩되어 있습니다. 이를 컴포즈를 통해 해결한 예인데요. 마지막 결과(res1)를 보면 리스트 효과(F) 내의 각 효과(G)에 함수(_ + 1)가 적용된 것을 확인하실 수 있습니다. 이처럼 펑터에는 효과의 중첩을 효과적으로 다룰 장치도 이미 마련되어 있습니다. 캣츠에는 더 간단하고 직관적으로 알수 있도록 <code>Nested</code>라는 <code>data type</code>을 제공하고 있습니다. 이 Nested를 이용한 코드는 조금 더 간결해지고 읽기 쉬워집니다(익숙하면).</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#66d9ef">val</span> nested<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Nested</span><span style="color:#f92672">[</span><span style="color:#66d9ef">List</span>, <span style="color:#66d9ef">Option</span>, <span style="color:#66d9ef">Int</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">=</span> <span style="color:#a6e22e">Nested</span><span style="color:#f92672">(</span>listOption<span style="color:#f92672">)</span>
+<span style="color:#75715e">// nested: Nested[List, Option, Int] = Nested(List(Some(1), None, Some(2)))
+</span><span style="color:#75715e"></span>
+nested<span style="color:#f92672">.</span>map<span style="color:#f92672">(</span><span style="color:#66d9ef">_</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">)</span>
+</code></pre></div><p>위 두 예제는 같은 값을 결과로 반환합니다.</p>
+<p>Functor는 F[A](A 타입을 가지는 효과)에서 A 타입의 값을 f(A =&gt; B) 함수를 이용해 B타입의 값을 가지는 효과로 변환하는 <code>map</code>과
+f(A =&gt; B) 함수를 F[A] 를 인자로 받아 F[B]를 반환하는 함수로 변환하는 <code>lift</code>를 가지고 있습니다.</p>
+<p>그럼 다음 글에서는 Monad(모나드)를 가지고 살포시 이야기 해보겠습니다.</p>
+<p>(<del>.. 뭐라는거지?ㅠㅠ</del>)</p>
+
+
+
+
+      
+    </article>
+    
+    
+      
+
+    
+  </div>
+
+    <footer>
+  
+  <div>
+    
+      <a href="https://www.github.com/freenice12" name="github"
+        ><em class="A icon from https://fontawesome.com/"></em
+      ></a>
+    
+
+
+
+
+  
+  <div class="container">
+    <p class="credits copyright">
+      <a href="https://freenice12.github.io/about">freenice12</a>
+      &nbsp;&copy;
+      2021
+      
+        &nbsp;/&nbsp;
+        <a href="https://freenice12.github.io/">freenice12&#39;s blog</a>
+      
+      &nbsp;&ndash;&nbsp;
+      <em class="fas fa-moon" id="dark-mode-toggle"></em>
+    </p>
+
+    <p class="credits theme-by">
+      Powered By <a href="https://gohugo.io">Hugo</a>&nbsp;
+      Theme
+      <a href="https://github.com/matsuyoshi30/harbor">Harbor</a>
+    </p>
+  </div>
+</footer>
+
+  </body>
+</html>
