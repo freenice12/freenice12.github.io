@@ -9,10 +9,18 @@
 		
 		<managingEditor>Page(&#34;freenice12&#39;s blog&#34;) (freenice12)</managingEditor>
     	
-  		<lastBuildDate>Tue, 20 Apr 2021 21:24:51 +0900</lastBuildDate>
+  		<lastBuildDate>Wed, 21 Apr 2021 21:38:30 +0900</lastBuildDate>
 		
 		<atom:link href="/" rel="self" type="application/rss+xml" />
 		
+		<item>
+			<title>스칼라로 본 Functional Programming(FP) - 3</title>
+			<link>https://freenice12.github.io/post/brief-fp-in-scala-3/</link>
+			<pubDate>Wed, 21 Apr 2021 21:38:30 +0900</pubDate>
+			<guid>https://freenice12.github.io/post/brief-fp-in-scala-3/</guid>
+			<description>스칼라로 본 Functional Programming(FP) - 3 Cats와 함께하는 FP (Cats 문서 내용을 토대로 내용을 전개합니다.) Monad  Monad extends the Applicative type class with a new function flatten. Flatten takes a value in a nested context (eg. F[F[A]] where F is the context) and “joins” the contexts together so that we have a single context (ie. F[A]). The name flatten should remind you of the functions of the same name on many classes in the standard library.</description>
+		</item>
+      	
 		<item>
 			<title>Misunderstanding over the TDD</title>
 			<link>https://freenice12.github.io/post/misunderstanding-over-the-tdd/</link>

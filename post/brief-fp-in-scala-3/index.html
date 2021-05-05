@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+<title>스칼라로 본 Functional Programming(FP) - 3</title>
+
+
+  
+
+
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  href="https://freenice12.github.io/index.xml"
+  title="freenice12&#39;s blog"
+/>
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="스칼라로 본 Functional Programming(FP) - 3"/>
+<meta name="twitter:description" content="스칼라로 본 Functional Programming(FP) - 3 Cats와 함께하는 FP (Cats 문서 내용을 토대로 내용을 전개합니다.) Monad  Monad extends the Applicative type class with a new function flatten. Flatten takes a value in a nested context (eg. F[F[A]] where F is the context) and “joins” the contexts together so that we have a single context (ie. F[A]). The name flatten should remind you of the functions of the same name on many classes in the standard library."/>
+
+
+
+<link rel="stylesheet" href="https://freenice12.github.io/fontawesome/css/all.min.css" />
+
+<link
+  id="dark-mode-theme"
+  rel="stylesheet"
+  href="https://freenice12.github.io/css/dark.css"
+/>
+
+<script>
+  var darkTheme = document.getElementById('dark-mode-theme')
+  var storedTheme = localStorage.getItem('dark-mode-storage')
+  if (storedTheme === 'dark') {
+    darkTheme.disabled = false
+  } else if (storedTheme === 'light') {
+    darkTheme.disabled = true
+  }
+</script>
+
+<script src="https://freenice12.github.io/js/main.bundle.js"></script>
+<meta name="generator" content="Hugo 0.82.0" />
+  </head>
+  <body>
+    
+  
+
+
+
+
+  <header>
+    <nav class="navbar">
+  <div class="nav">
+    
+        <a href="https://freenice12.github.io/" class="nav-logo">
+        <img
+          src="https://freenice12.github.io/images/icon.jpg"
+          width="50"
+          height="50"
+          alt="Logo"
+        />
+        </a>
+    
+
+    <ul class="nav-links">
+      
+        
+          <li>
+            <a href="/about" id="About"
+              ><em class="fas fa-user fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/tags" id="Tags"
+              ><em class="fas fa-tag fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/categories" id="Category"
+              ><em class="fas fa-folder-open fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/search" id="Search"
+              ><em class="fas fa-search fa-lg"></em
+            ></a>
+          </li>
+          
+      
+        
+          <li>
+            <a href="/archives" id="Archives"
+              ><em class="fas fa-archive fa-lg"></em
+            ></a>
+          </li>
+          
+      
+    </ul>
+  </div>
+</nav>
+
+    <div class="intro-header">
+      <div class="container">
+        <div class="post-heading">
+          
+            <h1>
+              스칼라로 본 Functional Programming(FP) - 3
+            </h1>
+          
+          
+            <span class="meta-post">
+  <em class="fa fa-calendar-alt"></em
+  >&nbsp;Apr 21, 2021
+  
+</span>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+  
+
+    
+  <div class="container" role="main">
+    <article class="article" class="blog-post">
+      
+  <h1 id="스칼라로-본-functional-programmingfp---3">스칼라로 본 Functional Programming(FP) - 3</h1>
+<h2 id="cats와-함께하는-fp-cats-문서-내용을-토대로-내용을-전개합니다">Cats와 함께하는 FP (Cats 문서 내용을 토대로 내용을 전개합니다.)</h2>
+<h3 id="monad">Monad</h3>
+<blockquote>
+<p>Monad extends the Applicative type class with a new function flatten. Flatten takes a value in a nested context (eg. F[F[A]] where F is the context) and “joins” the contexts together so that we have a single context (ie. F[A]).
+The name flatten should remind you of the functions of the same name on many classes in the standard library.</p>
+</blockquote>
+<p>모나드는 <code>flatten</code>이라는 새로운 함수와 <code>type class</code>인 <code>Applicative</code>를 확장(Monad extends Applicative &hellip;)합니다. <code>Flatten</code>은 컨텍스트(컨테이너 F: <code>F</code>[F[A]])내 값을 취할 수 있고, 두 컨택스트를 합(joins)칠 수 있습니다. 그 결과로 하나의 컨택스트(컨테이너)를 갖게 됩니다. &ldquo;flatten&quot;이란 이름은 여러 라이브러이에서 사용되며 이를 볼 때마다 어떤 기능인지 유추할 수 있게 됩니다.</p>
+<ul>
+<li>flatten ex:
+<ul>
+<li>Option(Option(1)).flatten
+<ul>
+<li>=&gt; Option[Int] = Some(1)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>Cats 문서에 나온 모나드 설명은 간단합니다. 하지만 우린 이미 <code>모나드 괴담</code>을 많이 들어 어렵다는 것쯤은 파악한 상태입니다.</p>
+<p>그러나 쫄지 말고(<del>레포트 제출하고 학점 받을 것도 아니고</del>) 역시 실제 코드로 유추해 봅니다.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#66d9ef">trait</span> <span style="color:#a6e22e">Monad</span><span style="color:#f92672">[</span><span style="color:#66d9ef">F</span><span style="color:#f92672">[</span><span style="color:#66d9ef">_</span><span style="color:#f92672">]]</span> <span style="color:#f92672">{</span>
+  <span style="color:#66d9ef">def</span> flatMap<span style="color:#f92672">[</span><span style="color:#66d9ef">A</span>, <span style="color:#66d9ef">B</span><span style="color:#f92672">](</span>fa<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">F</span><span style="color:#f92672">[</span><span style="color:#66d9ef">A</span><span style="color:#f92672">])(</span>f<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">A</span> <span style="color:#f92672">=&gt;</span> F<span style="color:#f92672">[</span><span style="color:#66d9ef">B</span><span style="color:#f92672">])</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">F</span><span style="color:#f92672">[</span><span style="color:#66d9ef">B</span><span style="color:#f92672">]</span>
+  <span style="color:#66d9ef">def</span> map<span style="color:#f92672">[</span><span style="color:#66d9ef">A</span>, <span style="color:#66d9ef">B</span><span style="color:#f92672">](</span>fa<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">F</span><span style="color:#f92672">[</span><span style="color:#66d9ef">A</span><span style="color:#f92672">])(</span>f<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">A</span> <span style="color:#f92672">=&gt;</span> B<span style="color:#f92672">)</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">F</span><span style="color:#f92672">[</span><span style="color:#66d9ef">B</span><span style="color:#f92672">]</span>
+  <span style="color:#66d9ef">def</span> pure<span style="color:#f92672">[</span><span style="color:#66d9ef">A</span><span style="color:#f92672">](</span>a<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">A</span><span style="color:#f92672">)</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">F</span><span style="color:#f92672">[</span><span style="color:#66d9ef">A</span><span style="color:#f92672">]</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>코드를 보니 감이 좀 오기 시작합니다(<del>안드로메다에서 출발했나&hellip; 왜않와?!</del>). 역시 친절한 문서 덕분에 이전에도 본 <code>map</code>과 간단해 보이는 <code>pure</code> 그리고 쪼~끔 어려워 보이는 <code>flatMap</code>이 전부입니다.</p>
+<ul>
+<li>map: <a href="./brief-fp-in-scala-2">functor</a>에서 본 map은 HOF을 받아 컨테이너 안의 값(타입)을 변경해 반환합니다.</li>
+<li>pure: 임의의 값(타입) a(A)를 받아 컨테이너에 넣어 반환합니다.</li>
+<li>flatMap: fa(F[A])를 받아 그 값(타입)을 꺼낸 후 HOF를 통해 값(타입)을 변경해 컨테이너에 넣어 반환합니다.</li>
+</ul>
+<p>아주 쉽습니다. 그럼 아래 예제에서 컨테이너(= 컨텍스트 = F)가 Option인 경우 코드를 살펴보겠습니다.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">OptionMonad</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Monad</span><span style="color:#f92672">[</span><span style="color:#66d9ef">Option</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Monad</span><span style="color:#f92672">[</span><span style="color:#66d9ef">Option</span><span style="color:#f92672">]</span> <span style="color:#f92672">{</span>
+  <span style="color:#66d9ef">def</span> flatMap<span style="color:#f92672">[</span><span style="color:#66d9ef">A</span>, <span style="color:#66d9ef">B</span><span style="color:#f92672">](</span>fa<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Option</span><span style="color:#f92672">[</span><span style="color:#66d9ef">A</span><span style="color:#f92672">])(</span>f<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">A</span> <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">Option</span><span style="color:#f92672">[</span><span style="color:#66d9ef">B</span><span style="color:#f92672">])</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Option</span><span style="color:#f92672">[</span><span style="color:#66d9ef">B</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">=</span> fa <span style="color:#66d9ef">match</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">case</span> <span style="color:#a6e22e">Some</span><span style="color:#f92672">(</span>a<span style="color:#f92672">)</span> <span style="color:#66d9ef">=&gt;</span> f<span style="color:#f92672">(</span>a<span style="color:#f92672">)</span>
+    <span style="color:#66d9ef">case</span> <span style="color:#a6e22e">None</span> <span style="color:#66d9ef">=&gt;</span> <span style="color:#a6e22e">None</span>
+  <span style="color:#f92672">}</span>
+
+  <span style="color:#66d9ef">def</span> map<span style="color:#f92672">[</span><span style="color:#66d9ef">A</span>, <span style="color:#66d9ef">B</span><span style="color:#f92672">](</span>fa<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Option</span><span style="color:#f92672">[</span><span style="color:#66d9ef">A</span><span style="color:#f92672">])(</span>f<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">A</span> <span style="color:#f92672">=&gt;</span> B<span style="color:#f92672">)</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Option</span><span style="color:#f92672">[</span><span style="color:#66d9ef">B</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">=</span> fa <span style="color:#66d9ef">match</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">case</span> <span style="color:#a6e22e">Some</span><span style="color:#f92672">(</span>a<span style="color:#f92672">)</span> <span style="color:#66d9ef">=&gt;</span> <span style="color:#a6e22e">Some</span><span style="color:#f92672">(</span>f<span style="color:#f92672">(</span>a<span style="color:#f92672">))</span>
+    <span style="color:#66d9ef">case</span> <span style="color:#a6e22e">None</span> <span style="color:#66d9ef">=&gt;</span> <span style="color:#a6e22e">None</span>
+  <span style="color:#f92672">}</span>
+
+  <span style="color:#66d9ef">def</span> pure<span style="color:#f92672">[</span><span style="color:#66d9ef">A</span><span style="color:#f92672">](</span>a<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">A</span><span style="color:#f92672">)</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Option</span><span style="color:#f92672">[</span><span style="color:#66d9ef">A</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">=</span> <span style="color:#a6e22e">Some</span><span style="color:#f92672">(</span>a<span style="color:#f92672">)</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>구현도 참 쉽습니다.</p>
+<p>실제 Cats 문서에는 어떤 식으로 되어있을까요? <code>pure</code>와 <code>flatten</code>은 <code>Applicative</code>에 이미 구현되어 있다고 가정하고 그대로 사용합니다.</p>
+<ul>
+<li>참고:
+<ul>
+<li>flatten = flatMap(_)(x =&gt; x)</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#66d9ef">implicit</span> <span style="color:#66d9ef">def</span> optionMonad<span style="color:#f92672">(</span><span style="color:#66d9ef">implicit</span> app<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Applicative</span><span style="color:#f92672">[</span><span style="color:#66d9ef">Option</span><span style="color:#f92672">])</span> <span style="color:#66d9ef">=</span>
+  <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Monad</span><span style="color:#f92672">[</span><span style="color:#66d9ef">Option</span><span style="color:#f92672">]</span> <span style="color:#f92672">{</span>
+    <span style="color:#75715e">// Define flatMap using Option&#39;s flatten method
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">def</span> flatMap<span style="color:#f92672">[</span><span style="color:#66d9ef">A</span>, <span style="color:#66d9ef">B</span><span style="color:#f92672">](</span>fa<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Option</span><span style="color:#f92672">[</span><span style="color:#66d9ef">A</span><span style="color:#f92672">])(</span>f<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">A</span> <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">Option</span><span style="color:#f92672">[</span><span style="color:#66d9ef">B</span><span style="color:#f92672">])</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Option</span><span style="color:#f92672">[</span><span style="color:#66d9ef">B</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">=</span>
+      app<span style="color:#f92672">.</span>map<span style="color:#f92672">(</span>fa<span style="color:#f92672">)(</span>f<span style="color:#f92672">).</span>flatten
+    <span style="color:#75715e">// Reuse this definition from Applicative.
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">def</span> pure<span style="color:#f92672">[</span><span style="color:#66d9ef">A</span><span style="color:#f92672">](</span>a<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">A</span><span style="color:#f92672">)</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Option</span><span style="color:#f92672">[</span><span style="color:#66d9ef">A</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">=</span> app<span style="color:#f92672">.</span>pure<span style="color:#f92672">(</span>a<span style="color:#f92672">)</span>
+
+    <span style="color:#a6e22e">@annotation</span><span style="color:#f92672">.</span>tailrec
+    <span style="color:#66d9ef">def</span> tailRecM<span style="color:#f92672">[</span><span style="color:#66d9ef">A</span>, <span style="color:#66d9ef">B</span><span style="color:#f92672">](</span>init<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">A</span><span style="color:#f92672">)(</span>fn<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">A</span> <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">Option</span><span style="color:#f92672">[</span><span style="color:#66d9ef">Either</span><span style="color:#f92672">[</span><span style="color:#66d9ef">A</span>, <span style="color:#66d9ef">B</span><span style="color:#f92672">]])</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Option</span><span style="color:#f92672">[</span><span style="color:#66d9ef">B</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">=</span>
+      fn<span style="color:#f92672">(</span>init<span style="color:#f92672">)</span> <span style="color:#66d9ef">match</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">case</span> <span style="color:#a6e22e">None</span> <span style="color:#66d9ef">=&gt;</span> <span style="color:#a6e22e">None</span>
+        <span style="color:#66d9ef">case</span> <span style="color:#a6e22e">Some</span><span style="color:#f92672">(</span><span style="color:#a6e22e">Right</span><span style="color:#f92672">(</span>b<span style="color:#f92672">))</span> <span style="color:#66d9ef">=&gt;</span> <span style="color:#a6e22e">Some</span><span style="color:#f92672">(</span>b<span style="color:#f92672">)</span>
+        <span style="color:#66d9ef">case</span> <span style="color:#a6e22e">Some</span><span style="color:#f92672">(</span><span style="color:#a6e22e">Left</span><span style="color:#f92672">(</span>a<span style="color:#f92672">))</span> <span style="color:#66d9ef">=&gt;</span> tailRecM<span style="color:#f92672">(</span>a<span style="color:#f92672">)(</span>fn<span style="color:#f92672">)</span>
+      <span style="color:#f92672">}</span>
+  <span style="color:#f92672">}</span>
+</code></pre></div><p>특히 꼬리 재귀(tailRecM) 코드가 있는데 HOF(fn)의 결과가 Option[Left[A]]라면 그 결괏값(a: A)을 기초로 해서 다시 <code>tailRecM</code> 함수를 호출하는 재귀로 되어 있습니다. 결국 HOF(fn)의 결과가 None이거나 Some(Right)인 경우까지 호출되다 종료하게 됩니다.</p>
+<p><code>tailRecM</code>의 경우 <code>스택에 안전</code>한 <code>Monadic recursion</code>입니다. 굉장히 일반적인 기법이지만 이런 코드는 JVM 위에서는 스택에 안전하지 않습니다. Cats에서는 모든 모나드 구현체에 제공하고 있습니다.</p>
+<p><code>flatMap</code>의 경우 모나드의 핵심일 테고, 스칼라의 경우 <a href="https://docs.scala-lang.org/tour/for-comprehensions.html">for comprehensions</a>를 사용하는 편의 문법(문법 설탕, Syntactic sugar)을 제공합니다. 따라서 아래와 같이 코드를 작성할 수 있습니다.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#75715e">// flatMap syntactic sugar
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">import</span> scala.reflect.runtime.universe
+
+universe<span style="color:#f92672">.</span>reify<span style="color:#f92672">(</span>
+  <span style="color:#66d9ef">for</span> <span style="color:#f92672">{</span>
+    x <span style="color:#66d9ef">&lt;-</span> <span style="color:#a6e22e">Some</span><span style="color:#f92672">(</span><span style="color:#ae81ff">1</span><span style="color:#f92672">)</span>
+    y <span style="color:#66d9ef">&lt;-</span> <span style="color:#a6e22e">Some</span><span style="color:#f92672">(</span><span style="color:#ae81ff">2</span><span style="color:#f92672">)</span>
+  <span style="color:#f92672">}</span> <span style="color:#66d9ef">yield</span> x <span style="color:#f92672">+</span> y
+<span style="color:#f92672">).</span>tree
+<span style="color:#75715e">// res3: universe.Tree = Apply(
+</span><span style="color:#75715e">//   Select(Apply(Select(Ident(Some), apply), List(Literal(Constant(1)))), flatMap),
+</span><span style="color:#75715e">//   List(
+</span><span style="color:#75715e">//     Function(
+</span><span style="color:#75715e">//       List(ValDef(Modifiers(8192L, , List()), x, &lt;type ?&gt;, &lt;empty&gt;)),
+</span><span style="color:#75715e">//       Apply(
+</span><span style="color:#75715e">//         Select(
+</span><span style="color:#75715e">//           Apply(Select(Ident(Some), apply), List(Literal(Constant(2)))),
+</span><span style="color:#75715e">//           map
+</span><span style="color:#75715e">//         ),
+</span><span style="color:#75715e">//         List(
+</span><span style="color:#75715e">//           Function(
+</span><span style="color:#75715e">//             List(ValDef(Modifiers(8192L, , List()), y, &lt;type ?&gt;, &lt;empty&gt;)),
+</span><span style="color:#75715e">//             Apply(Select(Ident(x), $plus), List(Ident(y)))
+</span><span style="color:#75715e">//           )
+</span><span style="color:#75715e">//         )
+</span><span style="color:#75715e">//       )
+</span><span style="color:#75715e">//     )
+</span><span style="color:#75715e">//   )
+</span><span style="color:#75715e">// )
+</span></code></pre></div><p>결국 중요한 부분은 <code>for</code>와 <code>&lt;-</code>를 통해서 <code>flatMap</code>을 호출하고 그 값을 사용할 수 있는 편의를 제공한다는 점입니다.</p>
+<p>Cats에서 제공하는 <code>ifM</code>이란 기능도 있습니다. <code>if 문</code>을 <code>monadic context</code>로 승격 시켜 제공됩니다.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#66d9ef">import</span> cats.implicits._
+
+<span style="color:#a6e22e">Monad</span><span style="color:#f92672">[</span><span style="color:#66d9ef">List</span><span style="color:#f92672">].</span>ifM<span style="color:#f92672">(</span><span style="color:#a6e22e">List</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">))(</span>ifTrue <span style="color:#66d9ef">=</span> <span style="color:#a6e22e">List</span><span style="color:#f92672">(</span><span style="color:#ae81ff">1</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">),</span> ifFalse <span style="color:#66d9ef">=</span> <span style="color:#a6e22e">List</span><span style="color:#f92672">(</span><span style="color:#ae81ff">3</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">4</span><span style="color:#f92672">))</span>
+<span style="color:#75715e">// res5: List[Int] = List(1, 2, 3, 4, 1, 2)
+</span></code></pre></div><p>예제를 보면 알 수 있듯, [true, false, true] 리스트가 각 조건에 맞는 경우 값을 치환해 줍니다.</p>
+<p>끝으로 다시 모나드를 위해 flatMap을 보자면 Cats에서는 <code>FlatMap</code>이라는 타입을 제공하고이는 모나드처럼 사용되지만 <code>pure</code>함수가 제거된 그리고 <code>flatMap</code>함수를 가진 trait입니다. 실제 모나드에서는 pure를 따로 언급하고 있지 않기 때문입니다. 그러나 <code>pure</code>는 승격(lift)을 위해 필요하기 때문에 Cats의 모나드는 pure 함수를 가진 <code>Applicative</code>의 하위 클래스가 됩니다.</p>
+<p>코드를 확인하고 마지막으로 왜 캣츠에 <code>FlatMap</code>이 존재하게 되었는지 살펴보겠습니다.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#66d9ef">trait</span> <span style="color:#a6e22e">FlatMap</span><span style="color:#f92672">[</span><span style="color:#66d9ef">F</span><span style="color:#f92672">[</span><span style="color:#66d9ef">_</span><span style="color:#f92672">]]</span> <span style="color:#a6e22e">extends</span> <span style="color:#a6e22e">Apply</span><span style="color:#f92672">[</span><span style="color:#66d9ef">F</span><span style="color:#f92672">]</span> <span style="color:#f92672">{</span>
+  <span style="color:#66d9ef">def</span> flatMap<span style="color:#f92672">[</span><span style="color:#66d9ef">A</span>, <span style="color:#66d9ef">B</span><span style="color:#f92672">](</span>fa<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">F</span><span style="color:#f92672">[</span><span style="color:#66d9ef">A</span><span style="color:#f92672">])(</span>f<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">A</span> <span style="color:#f92672">=&gt;</span> F<span style="color:#f92672">[</span><span style="color:#66d9ef">B</span><span style="color:#f92672">])</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">F</span><span style="color:#f92672">[</span><span style="color:#66d9ef">B</span><span style="color:#f92672">]</span>
+<span style="color:#f92672">}</span>
+
+<span style="color:#66d9ef">trait</span> <span style="color:#a6e22e">Monad</span><span style="color:#f92672">[</span><span style="color:#66d9ef">F</span><span style="color:#f92672">[</span><span style="color:#66d9ef">_</span><span style="color:#f92672">]]</span> <span style="color:#a6e22e">extends</span> <span style="color:#a6e22e">FlatMap</span><span style="color:#f92672">[</span><span style="color:#66d9ef">F</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">with</span> <span style="color:#a6e22e">Applicative</span><span style="color:#f92672">[</span><span style="color:#66d9ef">F</span><span style="color:#f92672">]</span>
+</code></pre></div><h3 id="번외-아래는-이해하기-어렵네요">번외&hellip; (아래는 이해하기 어렵네요.)</h3>
+<p><code>FlatMap</code>이 존재하게 된 이유는 <strong>모나드가 아니지만 <code>flatMap</code>을 사용해야 하는 경우</strong>가 있기 때문입니다.</p>
+<p>예를 들어 <code>Map[K, A]</code>에 대한 pure를 구현할 방법이 따로 없습니다.</p>
+<p>Map[K, A] 와 Map[K, B]를 연산할 경우 같은 <code>K</code>를 가지고 값(A)을 연산하는 것이 간단하기 때문에 이 경우 <code>flatMap</code>을 사용할 수 있습니다.</p>
+<p>따라서 Map[K, *]은 모나드라고 할 수 없지만 <code>flatMap</code>을 통해 연산은 할 수 있어야 하므로 Cats에는 <code>FlatMap</code>이 존재하게 된 것입니다.</p>
+<h3 id="번외-2">번외 2</h3>
+<blockquote>
+<p>for-comprehensions</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#75715e">//////////////////////////////////////////////////////////
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">// for comprehensions 일반 문법
+</span><span style="color:#75715e">// with yield
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">def</span> foo<span style="color:#f92672">(</span>n<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Int</span><span style="color:#f92672">,</span> v<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Int</span><span style="color:#f92672">)</span> <span style="color:#66d9ef">=</span>
+   <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span>i <span style="color:#66d9ef">&lt;-</span> <span style="color:#ae81ff">0</span> until n<span style="color:#f92672">;</span>
+        j <span style="color:#66d9ef">&lt;-</span> <span style="color:#ae81ff">0</span> until n <span style="color:#66d9ef">if</span> i <span style="color:#f92672">+</span> j <span style="color:#f92672">==</span> v<span style="color:#f92672">)</span>
+   <span style="color:#66d9ef">yield</span> <span style="color:#f92672">(</span>i<span style="color:#f92672">,</span> j<span style="color:#f92672">)</span>
+
+foo<span style="color:#f92672">(</span><span style="color:#ae81ff">10</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">10</span><span style="color:#f92672">)</span> foreach <span style="color:#f92672">{</span>
+  <span style="color:#66d9ef">case</span> <span style="color:#f92672">(</span>i<span style="color:#f92672">,</span> j<span style="color:#f92672">)</span> <span style="color:#66d9ef">=&gt;</span>
+    println<span style="color:#f92672">(</span><span style="color:#e6db74">s&#34;(</span><span style="color:#e6db74">$i</span><span style="color:#e6db74">, </span><span style="color:#e6db74">$j</span><span style="color:#e6db74">) &#34;</span><span style="color:#f92672">)</span>  <span style="color:#75715e">// prints (1, 9) (2, 8) (3, 7) (4, 6) (5, 5) (6, 4) (7, 3) (8, 2) (9, 1)
+</span><span style="color:#75715e"></span><span style="color:#f92672">}</span>
+
+<span style="color:#75715e">// for comprehensions 일반 문법
+</span><span style="color:#75715e">// without yield
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">def</span> foo<span style="color:#f92672">(</span>n<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Int</span><span style="color:#f92672">,</span> v<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Int</span><span style="color:#f92672">)</span> <span style="color:#66d9ef">=</span>
+   <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span>i <span style="color:#66d9ef">&lt;-</span> <span style="color:#ae81ff">0</span> until n<span style="color:#f92672">;</span>
+        j <span style="color:#66d9ef">&lt;-</span> <span style="color:#ae81ff">0</span> until n <span style="color:#66d9ef">if</span> i <span style="color:#f92672">+</span> j <span style="color:#f92672">==</span> v<span style="color:#f92672">)</span>
+   println<span style="color:#f92672">(</span><span style="color:#e6db74">s&#34;(</span><span style="color:#e6db74">$i</span><span style="color:#e6db74">, </span><span style="color:#e6db74">$j</span><span style="color:#e6db74">)&#34;</span><span style="color:#f92672">)</span>
+
+foo<span style="color:#f92672">(</span><span style="color:#ae81ff">10</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">10</span><span style="color:#f92672">)</span>
+</code></pre></div><h2 id="cats와-함께하는-fp를-마치며">Cats와 함께하는 FP를 마치며&hellip;</h2>
+<p>사실상 모나드 괴담으로 잘 알려진 모나드까지 간단히 알아보기 위해 글을 썻지만, 여전히 쉽지는 않습니다. 앞으로는 이 간단한(<del>정말?</del>) 개념을 모르고도 FP 코드를 작성한 실제 사례들을 가지고 글을 작성하도록 하겠습니다.</p>
+<p>FP는 미지의 영역이긴 하지만 우리는 엔지니어이기 때문에 과학(학문)을 다루듯 세심하게 접근하지 않아도 죄책감을 느낄 필요는 없어 보입니다. 게다가 추후 이런 내용을 이해하게 되면 코드가 지저분해 보일 테고 이는 우리가 가진 핵심 무기 <code>Refactoring</code>을 통해 충분히 개선할 수 있기 때문(이라고 믿자)입니다.</p>
+<p>그럼 이제(언제?) 실제 코드를 가지고 이야기해보도록 하겠습니다.</p>
+
+
+
+
+      
+    </article>
+    
+    
+      
+
+    
+  </div>
+
+    <footer>
+  
+  <div>
+    
+      <a href="https://www.github.com/freenice12" name="github"
+        ><em class="A icon from https://fontawesome.com/"></em
+      ></a>
+    
+
+
+
+
+  
+  <div class="container">
+    <p class="credits copyright">
+      <a href="https://freenice12.github.io/about">freenice12</a>
+      &nbsp;&copy;
+      2021
+      
+        &nbsp;/&nbsp;
+        <a href="https://freenice12.github.io/">freenice12&#39;s blog</a>
+      
+      &nbsp;&ndash;&nbsp;
+      <em class="fas fa-moon" id="dark-mode-toggle"></em>
+    </p>
+
+    <p class="credits theme-by">
+      Powered By <a href="https://gohugo.io">Hugo</a>&nbsp;
+      Theme
+      <a href="https://github.com/matsuyoshi30/harbor">Harbor</a>
+    </p>
+  </div>
+</footer>
+
+  </body>
+</html>
