@@ -12,6 +12,17 @@
 		<atom:link href="/categories/" rel="self" type="application/rss+xml" />
 		
 		<item>
+			<title>Test Double</title>
+			<link>https://freenice12.github.io/post/test-double/</link>
+			<pubDate>Wed, 12 May 2021 22:05:13 +0900</pubDate>
+			<guid>https://freenice12.github.io/post/test-double/</guid>
+			<description>테스트 대역(Test-Double)  테스트를 작성할 때 운영 코드를 대신해 행동하는 행동 대장들
+ 마틴 파울러 문서 중 일부입니다. 더 이상 혼동하지 않게 되길&amp;hellip;
+용어  Mock 이란 아래 이야기할 것들의 집합입니다. 우리가 예상된 결과를 미리 작성해두는 형태의 프로그램 된 개체들입니다.
+  Dummy: 실제 사용하는 운영 코드가 아니라 테스트를 위해 작성한 코드 Fake: 실제로 작동하는 구현체이지만 운영에 사용하기 적합하지 않음(ex: 인 메모리 디비) Stub: 테스트 작성 시 지정된 호출에 지정된 답을 함 Spy: 호출 시 일부 정보를 기록, 이 정보를 테스트의 말미에 검증  이메일 전송 서비스: 얼마나 많은 메시지가 전송되었는지 회원 가입: 이메일, 비밀번호 저장 etc.</description>
+		</item>
+      	
+		<item>
 			<title>스칼라로 본 Functional Programming(FP) - 3</title>
 			<link>https://freenice12.github.io/post/brief-fp-in-scala-3/</link>
 			<pubDate>Wed, 21 Apr 2021 21:38:30 +0900</pubDate>
